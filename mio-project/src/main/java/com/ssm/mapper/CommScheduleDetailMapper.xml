@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ssm.mapper.CommScheduleDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.mio.pojo.CommScheduleDetail" >
+    <result column="SCH_ID" property="schId" jdbcType="DECIMAL" />
+    <result column="DETAIL_ID" property="detailId" jdbcType="VARCHAR" />
+    <result column="DETAIL_TYPE" property="detailType" jdbcType="VARCHAR" />
+    <result column="DETAIL_CONTENT" property="detailContent" jdbcType="VARCHAR" />
+    <result column="DETAIL_DESC" property="detailDesc" jdbcType="VARCHAR" />
+    <result column="BEGIN_TIME" property="beginTime" jdbcType="TIMESTAMP" />
+    <result column="END_TIME" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="CREATED_TIME" property="createdTime" jdbcType="TIMESTAMP" />
+    <result column="CREATED_USERID" property="createdUserid" jdbcType="VARCHAR" />
+    <result column="CREATED_USERNAME" property="createdUsername" jdbcType="VARCHAR" />
+    <result column="DETAIL_RESP" property="detailResp" jdbcType="VARCHAR" />
+    <result column="DETAIL_RESPNAME" property="detailRespname" jdbcType="VARCHAR" />
+    <result column="DETAIL_STATE" property="detailState" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="DATE" />
+    <result column="RES_FIELD1" property="resField1" jdbcType="VARCHAR" />
+    <result column="RES_FIELD2" property="resField2" jdbcType="VARCHAR" />
+    <result column="RES_FIELD3" property="resField3" jdbcType="VARCHAR" />
+    <result column="RES_FIELD4" property="resField4" jdbcType="VARCHAR" />
+    <result column="RES_FIELD5" property="resField5" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    SCH_ID, DETAIL_ID, DETAIL_TYPE, DETAIL_CONTENT, DETAIL_DESC, BEGIN_TIME, END_TIME, 
+    CREATED_TIME, CREATED_USERID, CREATED_USERNAME, DETAIL_RESP, DETAIL_RESPNAME, DETAIL_STATE, 
+    UPDATE_TIME, RES_FIELD1, RES_FIELD2, RES_FIELD3, RES_FIELD4, RES_FIELD5
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mio.pojo.CommScheduleDetailExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from COMM_SCHEDULE_DETAIL
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+      order by BEGIN_TIME
+  </select>
+  <delete id="deleteByExample" parameterType="com.mio.pojo.CommScheduleDetailExample" >
+    delete from COMM_SCHEDULE_DETAIL
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mio.pojo.CommScheduleDetail" >
+    insert into COMM_SCHEDULE_DETAIL (SCH_ID, DETAIL_ID, DETAIL_TYPE, 
+      DETAIL_CONTENT, DETAIL_DESC, BEGIN_TIME, 
+      END_TIME, CREATED_TIME, CREATED_USERID, 
+      CREATED_USERNAME, DETAIL_RESP, DETAIL_RESPNAME, 
+      DETAIL_STATE, UPDATE_TIME, RES_FIELD1, 
+      RES_FIELD2, RES_FIELD3, RES_FIELD4, 
+      RES_FIELD5)
+    values (#{schId,jdbcType=DECIMAL}, #{detailId,jdbcType=VARCHAR}, #{detailType,jdbcType=VARCHAR}, 
+      #{detailContent,jdbcType=VARCHAR}, #{detailDesc,jdbcType=VARCHAR}, #{beginTime}, 
+      #{endTime}, #{createdTime}, #{createdUserid,jdbcType=VARCHAR}, 
+      #{createdUsername,jdbcType=VARCHAR}, #{detailResp,jdbcType=VARCHAR}, #{detailRespname,jdbcType=VARCHAR}, 
+      #{detailState,jdbcType=VARCHAR}, #{updateTime}, #{resField1,jdbcType=VARCHAR}, 
+      #{resField2,jdbcType=VARCHAR}, #{resField3,jdbcType=VARCHAR}, #{resField4,jdbcType=VARCHAR}, 
+      #{resField5,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mio.pojo.CommScheduleDetail" >
+    insert into COMM_SCHEDULE_DETAIL
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="schId != null" >
+        SCH_ID,
+      </if>
+      <if test="detailId != null" >
+        DETAIL_ID,
+      </if>
+      <if test="detailType != null" >
+        DETAIL_TYPE,
+      </if>
+      <if test="detailContent != null" >
+        DETAIL_CONTENT,
+      </if>
+      <if test="detailDesc != null" >
+        DETAIL_DESC,
+      </if>
+      <if test="beginTime != null" >
+        BEGIN_TIME,
+      </if>
+      <if test="endTime != null" >
+        END_TIME,
+      </if>
+      <if test="createdTime != null" >
+        CREATED_TIME,
+      </if>
+      <if test="createdUserid != null" >
+        CREATED_USERID,
+      </if>
+      <if test="createdUsername != null" >
+        CREATED_USERNAME,
+      </if>
+      <if test="detailResp != null" >
+        DETAIL_RESP,
+      </if>
+      <if test="detailRespname != null" >
+        DETAIL_RESPNAME,
+      </if>
+      <if test="detailState != null" >
+        DETAIL_STATE,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="resField1 != null" >
+        RES_FIELD1,
+      </if>
+      <if test="resField2 != null" >
+        RES_FIELD2,
+      </if>
+      <if test="resField3 != null" >
+        RES_FIELD3,
+      </if>
+      <if test="resField4 != null" >
+        RES_FIELD4,
+      </if>
+      <if test="resField5 != null" >
+        RES_FIELD5,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="schId != null" >
+        #{schId,jdbcType=DECIMAL},
+      </if>
+      <if test="detailId != null" >
+        #{detailId,jdbcType=VARCHAR},
+      </if>
+      <if test="detailType != null" >
+        #{detailType,jdbcType=VARCHAR},
+      </if>
+      <if test="detailContent != null" >
+        #{detailContent,jdbcType=VARCHAR},
+      </if>
+      <if test="detailDesc != null" >
+        #{detailDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="beginTime != null" >
+        #{beginTime},
+      </if>
+      <if test="endTime != null" >
+        #{endTime},
+      </if>
+      <if test="createdTime != null" >
+        #{createdTime},
+      </if>
+      <if test="createdUserid != null" >
+        #{createdUserid,jdbcType=VARCHAR},
+      </if>
+      <if test="createdUsername != null" >
+        #{createdUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="detailResp != null" >
+        #{detailResp,jdbcType=VARCHAR},
+      </if>
+      <if test="detailRespname != null" >
+        #{detailRespname,jdbcType=VARCHAR},
+      </if>
+      <if test="detailState != null" >
+        #{detailState,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime},
+      </if>
+      <if test="resField1 != null" >
+        #{resField1,jdbcType=VARCHAR},
+      </if>
+      <if test="resField2 != null" >
+        #{resField2,jdbcType=VARCHAR},
+      </if>
+      <if test="resField3 != null" >
+        #{resField3,jdbcType=VARCHAR},
+      </if>
+      <if test="resField4 != null" >
+        #{resField4,jdbcType=VARCHAR},
+      </if>
+      <if test="resField5 != null" >
+        #{resField5,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mio.pojo.CommScheduleDetailExample" resultType="java.lang.Integer" >
+    select count(*) from COMM_SCHEDULE_DETAIL
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update COMM_SCHEDULE_DETAIL
+    <set >
+      <if test="record.schId != null" >
+        SCH_ID = #{record.schId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.detailId != null" >
+        DETAIL_ID = #{record.detailId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.detailType != null" >
+        DETAIL_TYPE = #{record.detailType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.detailContent != null" >
+        DETAIL_CONTENT = #{record.detailContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.detailDesc != null" >
+        DETAIL_DESC = #{record.detailDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.beginTime != null" >
+        BEGIN_TIME = #{record.beginTime},
+      </if>
+      <if test="record.endTime != null" >
+        END_TIME = #{record.endTime},
+      </if>
+      <if test="record.createdTime != null" >
+        CREATED_TIME = #{record.createdTime},
+      </if>
+      <if test="record.createdUserid != null" >
+        CREATED_USERID = #{record.createdUserid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createdUsername != null" >
+        CREATED_USERNAME = #{record.createdUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.detailResp != null" >
+        DETAIL_RESP = #{record.detailResp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.detailRespname != null" >
+        DETAIL_RESPNAME = #{record.detailRespname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.detailState != null" >
+        DETAIL_STATE = #{record.detailState,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null" >
+        UPDATE_TIME = #{record.updateTime},
+      </if>
+      <if test="record.resField1 != null" >
+        RES_FIELD1 = #{record.resField1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.resField2 != null" >
+        RES_FIELD2 = #{record.resField2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.resField3 != null" >
+        RES_FIELD3 = #{record.resField3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.resField4 != null" >
+        RES_FIELD4 = #{record.resField4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.resField5 != null" >
+        RES_FIELD5 = #{record.resField5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update COMM_SCHEDULE_DETAIL
+    set SCH_ID = #{record.schId,jdbcType=DECIMAL},
+      DETAIL_ID = #{record.detailId,jdbcType=VARCHAR},
+      DETAIL_TYPE = #{record.detailType,jdbcType=VARCHAR},
+      DETAIL_CONTENT = #{record.detailContent,jdbcType=VARCHAR},
+      DETAIL_DESC = #{record.detailDesc,jdbcType=VARCHAR},
+      BEGIN_TIME = #{record.beginTime},
+      END_TIME = #{record.endTime},
+      CREATED_TIME = #{record.createdTime},
+      CREATED_USERID = #{record.createdUserid,jdbcType=VARCHAR},
+      CREATED_USERNAME = #{record.createdUsername,jdbcType=VARCHAR},
+      DETAIL_RESP = #{record.detailResp,jdbcType=VARCHAR},
+      DETAIL_RESPNAME = #{record.detailRespname,jdbcType=VARCHAR},
+      DETAIL_STATE = #{record.detailState,jdbcType=VARCHAR},
+      UPDATE_TIME = #{record.updateTime},
+      RES_FIELD1 = #{record.resField1,jdbcType=VARCHAR},
+      RES_FIELD2 = #{record.resField2,jdbcType=VARCHAR},
+      RES_FIELD3 = #{record.resField3,jdbcType=VARCHAR},
+      RES_FIELD4 = #{record.resField4,jdbcType=VARCHAR},
+      RES_FIELD5 = #{record.resField5,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

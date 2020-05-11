@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--
+  映射文件
+  resultType：结果集的映射类型
+  parameterType：指定参数类型，可以省略不配置
+-->
+<mapper namespace="com.mio.mapper.MioTreeListMapperCustom" >
+
+    <select id="selectPublicItemList" parameterType="String" resultType="java.util.HashMap">
+	  ${sqlStr}
+	</select>
+
+
+	<!--查询条件限制-->
+	<sql id="query_tree_where">
+		<!--输入框各类条件限制-->
+		<if test="mioTreeListCustom!=null">
+			<if test="mioTreeListCustom.name!=null and mioTreeListCustom.name!=''">
+				and t.name like '%${mioTreeListCustom.name}%'
+			</if>
+			<!--前台有0传入过来时 删除mioLeftListCustom.status!=''-->
+			<if test="mioTreeListCustom.status!=null">
+				and t.status = #{mioTreeListCustom.status}
+			</if>
+			<if test="mioTreeListCustom.id!=null and mioTreeListCustom.id!=''">
+				and t.id = #{mioTreeListCustom.id}
+			</if>
+		</if>
+	</sql>
+	<!--树形节点表格分页及查询条件-->
+	<!--
+          resultType    返回值的参数
+          parameterType 前台传入的参数，需要定义
+    -->
+	<select id="selectTreeTable" parameterType="com.mio.pojo.vo.MioTreeListQueryVo"
+			resultType="com.mio.pojo.vo.MioTreeListCustom">
+		SELECT ID,parent_id,NAME,CASE WHEN `status` = 1 THEN '使用' else '禁用 ' end as state,
+		sort_order,CASE WHEN `is_parent` = 1 THEN '是' else '否 ' end as isParents,
+		created,updated,attribute
+		FROM `mio_tree_list` t
+		<where>
+			<include refid="query_tree_where" />
+		</where>
+		order by id
+	</select>
+
+</mapper>

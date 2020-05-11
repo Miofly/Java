@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="test.QuartzMapper">
+	<!-- 基本返回值：实体类对象 -->
+	<resultMap id="BaseResultMap" type="com.ssm.test.InstmtQuartz">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="job_group" property="jobgroup" jdbcType="VARCHAR" />
+		<result column="trigger_group" property="triggergroup" jdbcType="VARCHAR" />
+		<result column="job_name" property="jobname" jdbcType="VARCHAR" />
+		<result column="trigger_name" property="triggername" jdbcType="VARCHAR" />
+		<result column="class_name" property="classname" jdbcType="VARCHAR" />
+		<result column="enable_status" property="enablestatus" jdbcType="VARCHAR" />
+		<result column="trigger_cron" property="triggercron" jdbcType="VARCHAR" />
+		<result column="trigger_status" property="triggerstatus" jdbcType="VARCHAR" />
+		<result column="create_time" property="createtime" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="updatetime" jdbcType="TIMESTAMP" />
+		<result column="desc_ript" property="descript" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		id, job_group, trigger_group, job_name, trigger_name, class_name, enable_status,
+		trigger_cron,trigger_status,create_time,update_time,desc_ript
+	</sql>
+	<select id="getQuartzByid" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from t_instmt_quartz
+		where id = #{id,jdbcType=VARCHAR}
+	</select>
+	<delete id="delQuartzByid" parameterType="java.lang.String">
+		delete from t_instmt_quartz
+		where id = #{id,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insertQuartz" parameterType="com.ssm.test.InstmtQuartz">
+		insert into t_instmt_quartz(<include refid="Base_Column_List" />)
+		values (#{id,jdbcType=VARCHAR}, #{jobgroup,jdbcType=VARCHAR}, #{triggergroup,jdbcType=VARCHAR},
+		#{jobname,jdbcType=VARCHAR}, #{triggername,jdbcType=VARCHAR}, #{classname,jdbcType=VARCHAR},
+		#{enablestatus,jdbcType=VARCHAR},#{triggercron,jdbcType=VARCHAR},#{triggerstatus,jdbcType=VARCHAR},
+		#{createtime,jdbcType=DATE},#{updatetime,jdbcType=DATE},#{descript,jdbcType=VARCHAR})
+	</insert>
+	<!-- <insert id="insertSelective" parameterType="com.xzhang.model.User">
+		insert into tuser
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if Test="id != null">
+				ID,
+			</if>
+			<if Test="createdatetime != null">
+				CREATEDATETIME,
+			</if>
+			<if Test="modifydatetime != null">
+				MODIFYDATETIME,
+			</if>
+			<if Test="name != null">
+				NAME,
+			</if>
+			<if Test="pwd != null">
+				PWD,
+			</if>
+			<if Test="createTime != null">
+				CREATE_TIME,
+			</if>
+			<if Test="updateTime != null">
+				UPDATE_TIME,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if Test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if Test="createdatetime != null">
+				#{createdatetime,jdbcType=TIMESTAMP},
+			</if>
+			<if Test="modifydatetime != null">
+				#{modifydatetime,jdbcType=TIMESTAMP},
+			</if>
+			<if Test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if Test="pwd != null">
+				#{pwd,jdbcType=VARCHAR},
+			</if>
+			<if Test="createTime != null">
+				#{createTime,jdbcType=DATE},
+			</if>
+			<if Test="updateTime != null">
+				#{updateTime,jdbcType=DATE},
+			</if>
+		</trim>
+	</insert> -->
+	<update id="updateQuartzByid" parameterType="com.ssm.test.InstmtQuartz">
+		update t_instmt_quartz
+		<set>
+			<if test="classname != null">
+				class_name = #{classname,jdbcType=VARCHAR},
+			</if>
+			<if test="triggercron != null">
+				trigger_cron = #{triggercron,jdbcType=VARCHAR},
+			</if>
+			<if test="descript != null">
+				desc_ript = #{descript,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+	<!-- <update id="updateByPrimaryKey" parameterType="com.xzhang.model.User">
+		update tuser
+		set CREATEDATETIME = #{createdatetime,jdbcType=TIMESTAMP},
+		MODIFYDATETIME = #{modifydatetime,jdbcType=TIMESTAMP},
+		NAME = #{name,jdbcType=VARCHAR},
+		PWD = #{pwd,jdbcType=VARCHAR},
+		CREATE_TIME = #{createTime,jdbcType=DATE},
+		UPDATE_TIME = #{updateTime,jdbcType=DATE}
+		where ID = #{id,jdbcType=VARCHAR}
+	</update> -->
+
+	
+	<select id="getInstmtQuartzList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		<![CDATA[SELECT * FROM t_instmt_quartz quartz WHERE 1=1]]>
+		<if test="enablestatus != null and enablestatus != ''">
+			<![CDATA[and quartz.enable_status = #{enablestatus,jdbcType=VARCHAR}]]>
+		</if>
+		<if test="triggerstatus != null and triggerstatus != ''">
+			<![CDATA[and quartz.trigger_status = #{triggerstatus,jdbcType=VARCHAR}]]>
+		</if>
+	</select>
+	
+	
+</mapper>

@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ssm.mapper.LanInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.mio.pojo.LanInfo" >
+    <result column="LAN_ID" property="lanId" jdbcType="DECIMAL" />
+    <result column="LAN_CODE" property="lanCode" jdbcType="VARCHAR" />
+    <result column="LAN_NAME" property="lanName" jdbcType="VARCHAR" />
+    <result column="PINYIN" property="pinyin" jdbcType="VARCHAR" />
+    <result column="ORDER_MARKS" property="orderMarks" jdbcType="DECIMAL" />
+    <result column="X" property="x" jdbcType="VARCHAR" />
+    <result column="Y" property="y" jdbcType="VARCHAR" />
+    <result column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+    <result column="LAN_ID_SD" property="lanIdSd" jdbcType="VARCHAR" />
+    <result column="WEIGHT" property="weight" jdbcType="DECIMAL" />
+    <result column="CITY_ID_SD" property="cityIdSd" jdbcType="DECIMAL" />
+    <result column="BIG_AREA" property="bigArea" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    LAN_ID, LAN_CODE, LAN_NAME, PINYIN, ORDER_MARKS, X, Y, ORDER_ID, LAN_ID_SD, WEIGHT, 
+    CITY_ID_SD, BIG_AREA
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mio.pojo.LanInfoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from lan_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.mio.pojo.LanInfoExample" >
+    delete from lan_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mio.pojo.LanInfo" >
+    insert into lan_info (LAN_ID, LAN_CODE, LAN_NAME, 
+      PINYIN, ORDER_MARKS, X, 
+      Y, ORDER_ID, LAN_ID_SD, 
+      WEIGHT, CITY_ID_SD, BIG_AREA
+      )
+    values (#{lanId,jdbcType=DECIMAL}, #{lanCode,jdbcType=VARCHAR}, #{lanName,jdbcType=VARCHAR}, 
+      #{pinyin,jdbcType=VARCHAR}, #{orderMarks,jdbcType=DECIMAL}, #{x,jdbcType=VARCHAR}, 
+      #{y,jdbcType=VARCHAR}, #{orderId,jdbcType=DECIMAL}, #{lanIdSd,jdbcType=VARCHAR}, 
+      #{weight,jdbcType=DECIMAL}, #{cityIdSd,jdbcType=DECIMAL}, #{bigArea,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.mio.pojo.LanInfo" >
+    insert into lan_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="lanId != null" >
+        LAN_ID,
+      </if>
+      <if test="lanCode != null" >
+        LAN_CODE,
+      </if>
+      <if test="lanName != null" >
+        LAN_NAME,
+      </if>
+      <if test="pinyin != null" >
+        PINYIN,
+      </if>
+      <if test="orderMarks != null" >
+        ORDER_MARKS,
+      </if>
+      <if test="x != null" >
+        X,
+      </if>
+      <if test="y != null" >
+        Y,
+      </if>
+      <if test="orderId != null" >
+        ORDER_ID,
+      </if>
+      <if test="lanIdSd != null" >
+        LAN_ID_SD,
+      </if>
+      <if test="weight != null" >
+        WEIGHT,
+      </if>
+      <if test="cityIdSd != null" >
+        CITY_ID_SD,
+      </if>
+      <if test="bigArea != null" >
+        BIG_AREA,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="lanId != null" >
+        #{lanId,jdbcType=DECIMAL},
+      </if>
+      <if test="lanCode != null" >
+        #{lanCode,jdbcType=VARCHAR},
+      </if>
+      <if test="lanName != null" >
+        #{lanName,jdbcType=VARCHAR},
+      </if>
+      <if test="pinyin != null" >
+        #{pinyin,jdbcType=VARCHAR},
+      </if>
+      <if test="orderMarks != null" >
+        #{orderMarks,jdbcType=DECIMAL},
+      </if>
+      <if test="x != null" >
+        #{x,jdbcType=VARCHAR},
+      </if>
+      <if test="y != null" >
+        #{y,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=DECIMAL},
+      </if>
+      <if test="lanIdSd != null" >
+        #{lanIdSd,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null" >
+        #{weight,jdbcType=DECIMAL},
+      </if>
+      <if test="cityIdSd != null" >
+        #{cityIdSd,jdbcType=DECIMAL},
+      </if>
+      <if test="bigArea != null" >
+        #{bigArea,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mio.pojo.LanInfoExample" resultType="java.lang.Integer" >
+    select count(*) from lan_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update lan_info
+    <set >
+      <if test="record.lanId != null" >
+        LAN_ID = #{record.lanId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.lanCode != null" >
+        LAN_CODE = #{record.lanCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lanName != null" >
+        LAN_NAME = #{record.lanName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pinyin != null" >
+        PINYIN = #{record.pinyin,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderMarks != null" >
+        ORDER_MARKS = #{record.orderMarks,jdbcType=DECIMAL},
+      </if>
+      <if test="record.x != null" >
+        X = #{record.x,jdbcType=VARCHAR},
+      </if>
+      <if test="record.y != null" >
+        Y = #{record.y,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderId != null" >
+        ORDER_ID = #{record.orderId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.lanIdSd != null" >
+        LAN_ID_SD = #{record.lanIdSd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.weight != null" >
+        WEIGHT = #{record.weight,jdbcType=DECIMAL},
+      </if>
+      <if test="record.cityIdSd != null" >
+        CITY_ID_SD = #{record.cityIdSd,jdbcType=DECIMAL},
+      </if>
+      <if test="record.bigArea != null" >
+        BIG_AREA = #{record.bigArea,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update lan_info
+    set LAN_ID = #{record.lanId,jdbcType=DECIMAL},
+      LAN_CODE = #{record.lanCode,jdbcType=VARCHAR},
+      LAN_NAME = #{record.lanName,jdbcType=VARCHAR},
+      PINYIN = #{record.pinyin,jdbcType=VARCHAR},
+      ORDER_MARKS = #{record.orderMarks,jdbcType=DECIMAL},
+      X = #{record.x,jdbcType=VARCHAR},
+      Y = #{record.y,jdbcType=VARCHAR},
+      ORDER_ID = #{record.orderId,jdbcType=DECIMAL},
+      LAN_ID_SD = #{record.lanIdSd,jdbcType=VARCHAR},
+      WEIGHT = #{record.weight,jdbcType=DECIMAL},
+      CITY_ID_SD = #{record.cityIdSd,jdbcType=DECIMAL},
+      BIG_AREA = #{record.bigArea,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

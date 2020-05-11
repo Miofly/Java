@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="mio-web:war">
+    <output-path>$PROJECT_DIR$/mio-web/target</output-path>
+    <root id="archive" name="mio-web.war">
+      <element id="artifact" artifact-name="mio-web:war exploded" />
+    </root>
+  </artifact>
+</component>

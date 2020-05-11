@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.toby.pay.dao.VRechargeOrderDAO">
+  <resultMap id="BaseResultMap" type="com.toby.pay.model.mybatis.VRechargeOrder">
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="order_id" jdbcType="VARCHAR" property="orderId" />
+    <result column="merchant_id" jdbcType="INTEGER" property="merchantId" />
+    <result column="amount" jdbcType="DECIMAL" property="amount" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="process_time" jdbcType="TIMESTAMP" property="processTime" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="super_order_id" jdbcType="VARCHAR" property="superOrderId" />
+    <result column="account_id" jdbcType="INTEGER" property="accountId" />
+    <result column="merchant_account" jdbcType="VARCHAR" property="merchantAccount" />
+    <result column="merchant_type" jdbcType="INTEGER" property="merchantType" />
+    <result column="merchant_name" jdbcType="VARCHAR" property="merchantName" />
+    <result column="merchant_telephone" jdbcType="VARCHAR" property="merchantTelephone" />
+    <result column="merchant_status" jdbcType="INTEGER" property="merchantStatus" />
+    <result column="agent_id" jdbcType="INTEGER" property="agentId" />
+    <result column="agent_account" jdbcType="VARCHAR" property="agentAccount" />
+    <result column="agent_name" jdbcType="VARCHAR" property="agentName" />
+    <result column="agent_telephone" jdbcType="VARCHAR" property="agentTelephone" />
+    <result column="agent_status" jdbcType="INTEGER" property="agentStatus" />
+    <result column="account_name" jdbcType="VARCHAR" property="accountName" />
+    <result column="channel_id" jdbcType="INTEGER" property="channelId" />
+    <result column="channel_key" jdbcType="VARCHAR" property="channelKey" />
+    <result column="channel_ori_name" jdbcType="VARCHAR" property="channelOriName" />
+    <result column="channel_show_name" jdbcType="VARCHAR" property="channelShowName" />
+    <result column="channel_status" jdbcType="INTEGER" property="channelStatus" />
+    <result column="channel_type" jdbcType="INTEGER" property="channelType" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, order_id, merchant_id, amount, create_time, process_time, `status`, super_order_id, 
+    account_id, merchant_account, merchant_type, merchant_name, merchant_telephone, merchant_status, 
+    agent_id, agent_account, agent_name, agent_telephone, agent_status, account_name, 
+    channel_id, channel_key, channel_ori_name, channel_show_name, channel_status, channel_type
+  </sql>
+  <select id="selectByExample" parameterType="com.toby.pay.model.mybatis.VRechargeOrderExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from v_recharge_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.toby.pay.model.mybatis.VRechargeOrderExample">
+    delete from v_recharge_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.toby.pay.model.mybatis.VRechargeOrder" useGeneratedKeys="true">
+    insert into v_recharge_order (order_id, merchant_id, amount, 
+      create_time, process_time, `status`, 
+      super_order_id, account_id, merchant_account, 
+      merchant_type, merchant_name, merchant_telephone, 
+      merchant_status, agent_id, agent_account, 
+      agent_name, agent_telephone, agent_status, 
+      account_name, channel_id, channel_key, 
+      channel_ori_name, channel_show_name, channel_status, 
+      channel_type)
+    values (#{orderId,jdbcType=VARCHAR}, #{merchantId,jdbcType=INTEGER}, #{amount,jdbcType=DECIMAL}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{processTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, 
+      #{superOrderId,jdbcType=VARCHAR}, #{accountId,jdbcType=INTEGER}, #{merchantAccount,jdbcType=VARCHAR}, 
+      #{merchantType,jdbcType=INTEGER}, #{merchantName,jdbcType=VARCHAR}, #{merchantTelephone,jdbcType=VARCHAR}, 
+      #{merchantStatus,jdbcType=INTEGER}, #{agentId,jdbcType=INTEGER}, #{agentAccount,jdbcType=VARCHAR}, 
+      #{agentName,jdbcType=VARCHAR}, #{agentTelephone,jdbcType=VARCHAR}, #{agentStatus,jdbcType=INTEGER}, 
+      #{accountName,jdbcType=VARCHAR}, #{channelId,jdbcType=INTEGER}, #{channelKey,jdbcType=VARCHAR}, 
+      #{channelOriName,jdbcType=VARCHAR}, #{channelShowName,jdbcType=VARCHAR}, #{channelStatus,jdbcType=INTEGER}, 
+      #{channelType,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.toby.pay.model.mybatis.VRechargeOrder" useGeneratedKeys="true">
+    insert into v_recharge_order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="merchantId != null">
+        merchant_id,
+      </if>
+      <if test="amount != null">
+        amount,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="processTime != null">
+        process_time,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+      <if test="superOrderId != null">
+        super_order_id,
+      </if>
+      <if test="accountId != null">
+        account_id,
+      </if>
+      <if test="merchantAccount != null">
+        merchant_account,
+      </if>
+      <if test="merchantType != null">
+        merchant_type,
+      </if>
+      <if test="merchantName != null">
+        merchant_name,
+      </if>
+      <if test="merchantTelephone != null">
+        merchant_telephone,
+      </if>
+      <if test="merchantStatus != null">
+        merchant_status,
+      </if>
+      <if test="agentId != null">
+        agent_id,
+      </if>
+      <if test="agentAccount != null">
+        agent_account,
+      </if>
+      <if test="agentName != null">
+        agent_name,
+      </if>
+      <if test="agentTelephone != null">
+        agent_telephone,
+      </if>
+      <if test="agentStatus != null">
+        agent_status,
+      </if>
+      <if test="accountName != null">
+        account_name,
+      </if>
+      <if test="channelId != null">
+        channel_id,
+      </if>
+      <if test="channelKey != null">
+        channel_key,
+      </if>
+      <if test="channelOriName != null">
+        channel_ori_name,
+      </if>
+      <if test="channelShowName != null">
+        channel_show_name,
+      </if>
+      <if test="channelStatus != null">
+        channel_status,
+      </if>
+      <if test="channelType != null">
+        channel_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="orderId != null">
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantId != null">
+        #{merchantId,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="processTime != null">
+        #{processTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="superOrderId != null">
+        #{superOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="accountId != null">
+        #{accountId,jdbcType=INTEGER},
+      </if>
+      <if test="merchantAccount != null">
+        #{merchantAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantType != null">
+        #{merchantType,jdbcType=INTEGER},
+      </if>
+      <if test="merchantName != null">
+        #{merchantName,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantTelephone != null">
+        #{merchantTelephone,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantStatus != null">
+        #{merchantStatus,jdbcType=INTEGER},
+      </if>
+      <if test="agentId != null">
+        #{agentId,jdbcType=INTEGER},
+      </if>
+      <if test="agentAccount != null">
+        #{agentAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="agentName != null">
+        #{agentName,jdbcType=VARCHAR},
+      </if>
+      <if test="agentTelephone != null">
+        #{agentTelephone,jdbcType=VARCHAR},
+      </if>
+      <if test="agentStatus != null">
+        #{agentStatus,jdbcType=INTEGER},
+      </if>
+      <if test="accountName != null">
+        #{accountName,jdbcType=VARCHAR},
+      </if>
+      <if test="channelId != null">
+        #{channelId,jdbcType=INTEGER},
+      </if>
+      <if test="channelKey != null">
+        #{channelKey,jdbcType=VARCHAR},
+      </if>
+      <if test="channelOriName != null">
+        #{channelOriName,jdbcType=VARCHAR},
+      </if>
+      <if test="channelShowName != null">
+        #{channelShowName,jdbcType=VARCHAR},
+      </if>
+      <if test="channelStatus != null">
+        #{channelStatus,jdbcType=INTEGER},
+      </if>
+      <if test="channelType != null">
+        #{channelType,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.toby.pay.model.mybatis.VRechargeOrderExample" resultType="java.lang.Long">
+    select count(*) from v_recharge_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update v_recharge_order
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderId != null">
+        order_id = #{record.orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.merchantId != null">
+        merchant_id = #{record.merchantId,jdbcType=INTEGER},
+      </if>
+      <if test="record.amount != null">
+        amount = #{record.amount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.processTime != null">
+        process_time = #{record.processTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.status != null">
+        `status` = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.superOrderId != null">
+        super_order_id = #{record.superOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.accountId != null">
+        account_id = #{record.accountId,jdbcType=INTEGER},
+      </if>
+      <if test="record.merchantAccount != null">
+        merchant_account = #{record.merchantAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.merchantType != null">
+        merchant_type = #{record.merchantType,jdbcType=INTEGER},
+      </if>
+      <if test="record.merchantName != null">
+        merchant_name = #{record.merchantName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.merchantTelephone != null">
+        merchant_telephone = #{record.merchantTelephone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.merchantStatus != null">
+        merchant_status = #{record.merchantStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.agentId != null">
+        agent_id = #{record.agentId,jdbcType=INTEGER},
+      </if>
+      <if test="record.agentAccount != null">
+        agent_account = #{record.agentAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.agentName != null">
+        agent_name = #{record.agentName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.agentTelephone != null">
+        agent_telephone = #{record.agentTelephone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.agentStatus != null">
+        agent_status = #{record.agentStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.accountName != null">
+        account_name = #{record.accountName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.channelId != null">
+        channel_id = #{record.channelId,jdbcType=INTEGER},
+      </if>
+      <if test="record.channelKey != null">
+        channel_key = #{record.channelKey,jdbcType=VARCHAR},
+      </if>
+      <if test="record.channelOriName != null">
+        channel_ori_name = #{record.channelOriName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.channelShowName != null">
+        channel_show_name = #{record.channelShowName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.channelStatus != null">
+        channel_status = #{record.channelStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.channelType != null">
+        channel_type = #{record.channelType,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update v_recharge_order
+    set id = #{record.id,jdbcType=INTEGER},
+      order_id = #{record.orderId,jdbcType=VARCHAR},
+      merchant_id = #{record.merchantId,jdbcType=INTEGER},
+      amount = #{record.amount,jdbcType=DECIMAL},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      process_time = #{record.processTime,jdbcType=TIMESTAMP},
+      `status` = #{record.status,jdbcType=INTEGER},
+      super_order_id = #{record.superOrderId,jdbcType=VARCHAR},
+      account_id = #{record.accountId,jdbcType=INTEGER},
+      merchant_account = #{record.merchantAccount,jdbcType=VARCHAR},
+      merchant_type = #{record.merchantType,jdbcType=INTEGER},
+      merchant_name = #{record.merchantName,jdbcType=VARCHAR},
+      merchant_telephone = #{record.merchantTelephone,jdbcType=VARCHAR},
+      merchant_status = #{record.merchantStatus,jdbcType=INTEGER},
+      agent_id = #{record.agentId,jdbcType=INTEGER},
+      agent_account = #{record.agentAccount,jdbcType=VARCHAR},
+      agent_name = #{record.agentName,jdbcType=VARCHAR},
+      agent_telephone = #{record.agentTelephone,jdbcType=VARCHAR},
+      agent_status = #{record.agentStatus,jdbcType=INTEGER},
+      account_name = #{record.accountName,jdbcType=VARCHAR},
+      channel_id = #{record.channelId,jdbcType=INTEGER},
+      channel_key = #{record.channelKey,jdbcType=VARCHAR},
+      channel_ori_name = #{record.channelOriName,jdbcType=VARCHAR},
+      channel_show_name = #{record.channelShowName,jdbcType=VARCHAR},
+      channel_status = #{record.channelStatus,jdbcType=INTEGER},
+      channel_type = #{record.channelType,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <select id="sumAmountByExample" parameterType="com.toby.pay.model.mybatis.VRechargeOrderExample"
+          resultType="java.math.BigDecimal">
+    select IFNULL(sum(amount),0) amount
+    from v_recharge_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause"/>
+    </if>
+  </select>
+</mapper>

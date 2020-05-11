@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/js/vue/vue.js"></script>
+
+</head>
+<body>
+    <div id="app">
+        <input type="text" v-model="username">
+        <p>{{username}}</p>
+        <p v-text="username"></p>
+        <p v-html="username"></p>
+        <img  v-bind:src="imgUrl" alt="">
+        <img  :src="imgUrl" alt="">
+
+        <button v-on:click="test">test1</button>
+        <button @click="test1('123123213')">test1</button>
+        <button @click="test1(username)">{{username}}</button>
+
+        <br>
+        <input type="text" v-model="fn"><br>
+        <input type="text" v-model="ln"><br>
+        <input type="text" v-model="tname"><br>
+        <input type="text" v-model="tname1">
+    </div>
+    <p>{{username}}</p>
+
+    <script>
+        const vm = new Vue({
+            el : '#app',
+            data : {
+                username : 'test',
+                imgUrl: '/images/pinred.png',
+                fn:'fn',
+                ln:'ln',
+                tn:'tn',
+                sn:'sn',
+                en:'en'
+            },
+            computed: {
+              tname () {
+                  return this.fn +''+ this.ln
+              }
+            },
+            watch:{ //配置监视
+                fn:function (value) {
+                    console.log(this)//就是vm对象
+                    this.tname1 = value+''+this.ln
+                }
+            },
+            methods:{
+                test(){
+                    alert(1)
+                },
+                test1(mio){
+                    alert(mio)
+                }
+            }
+        })
+
+        vm.$watch('ln',function (value) {
+            this.tname1 = this.fn+''+value
+        })
+    </script>
+<!--
+MVVM
+model：模型 数据对象data
+view ：视图 模板页面
+viewModel：视图模型（Vue的实例vm）
+-->
+</body>
+</html>

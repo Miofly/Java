@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--
+  映射文件
+  resultType：结果集的映射类型
+  parameterType：指定参数类型，可以省略不配置
+-->
+<mapper namespace="com.ssm.mapper.MioLeftListMapperCustom" >
+
+    <!--查询条件限制-->
+    <sql id="query_tree_where">
+    <!--输入框各类条件限制-->
+        <if test="mioLeftListCustom!=null">
+            <if test="mioLeftListCustom.name!=null and mioLeftListCustom.name!=''">
+                and t.name like '%${mioLeftListCustom.name}%'
+            </if>
+            <!--前台有0传入过来时 删除mioLeftListCustom.status!=''-->
+            <if test="mioLeftListCustom.status!=null">
+                and t.status = #{mioLeftListCustom.status}
+            </if>
+            <if test="mioLeftListCustom.id!=null and mioLeftListCustom.id!=''">
+                and t.id = #{mioLeftListCustom.id}
+            </if>
+        </if>
+     </sql>
+    <!--树形节点表格分页及查询条件-->
+    <!--
+          resultType    返回值的参数
+          parameterType 前台传入的参数，需要定义
+    -->
+    <select id="selectTableList" parameterType="com.mio.pojo.vo.MioLeftListQueryVo"
+            resultType="com.mio.pojo.vo.MioLeftListCustom">
+        SELECT T.ID,T.Parent_Id,T.NAME,
+        CASE WHEN ID IN(SELECT DISTINCT(PARENT_ID) FROM MIO_LEFT_LIST) THEN '是' ELSE '否' END IS_PARENT,
+        (SELECT INFO FROM MIO_DICTINFO WHERE MIO_DICTINFO.DICTCODE =T.STATUS AND TYPECODE = '001' ) state ,
+        T.Created,T.Updated,T.URL
+        from MIO_LEFT_LIST T
+        <where>
+            <include refid="query_tree_where" />
+        </where>
+        ORDER BY PARENT_ID,ID
+    </select>
+
+
+
+    <sql id="ExpIds">
+        <!--导出时选中行的ID限制-->
+        <if test="ids!=null and ids!=''">
+            and t.id in
+            ( ${ids} )
+        </if>
+    </sql>
+    <!--导出-->
+    <select id="selectTableListExp" parameterType="com.mio.pojo.vo.MioLeftListQueryVo"
+            resultType="com.mio.pojo.vo.MioLeftListCustom">
+        SELECT t.*,
+        <!--判断是否为父节点-->
+        CASE WHEN ID IN(SELECT DISTINCT(PARENT_ID) FROM MIO_LEFT_LIST) THEN 'false' ELSE 'true' END IS_PARENT
+        from MIO_LEFT_LIST t
+        <where>
+            <include refid="ExpIds" />
+        </where>
+        ORDER BY PARENT_ID,ID
+    </select>
+  <!--
+
+  -->
+  <select id="selectTree" parameterType="com.mio.pojo.vo.MioLeftListQueryVo"
+            resultType="com.mio.pojo.vo.MioLeftListCustom">
+    select t.*,
+     CASE WHEN ID IN(SELECT DISTINCT(PARENT_ID) FROM MIO_LEFT_LIST) THEN 'false'
+     ELSE 'true' END IS_PARENT from MIO_LEFT_LIST t WHERE PARENT_ID = #{parentId}  ORDER BY ID
+  </select>
+
+
+
+   <update id="updateTree" parameterType="com.mio.pojo.vo.MioLeftListQueryVo" >
+      update MIO_LEFT_LIST
+        set PARENT_ID = #{parentId,jdbcType=DECIMAL},
+        NAME = #{name,jdbcType=VARCHAR},
+        <if test="state!=null">
+          status = #{state},
+        </if>
+        UPDATED = sysdate,
+        URL = #{url,jdbcType=VARCHAR}
+      where ID = #{id,jdbcType=DECIMAL}
+  </update>
+
+</mapper>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--
+  映射文件
+  resultType：结果集的映射类型
+  parameterType：指定参数类型，可以省略不配置
+-->
+<mapper namespace="com.mio.mapper.InfoMapperCustom" >
+
+
+	<!--树形节点表格分页及查询条件-->
+	<!--
+          resultType    返回值的参数
+          parameterType 前台传入的参数，需要定义
+    -->
+	<select id="selectInfo" parameterType="com.mio.pojo.vo.InfoQueryVo"
+			resultType="com.mio.pojo.vo.InfoCustom">
+		select 'depart' as area , substr(ai.barea_name,1,3) as cityName,
+		di.depart_name,di.longitude,di.latitude,substr(ai.barea_name,4,6) AS city
+		from depart_info di,area_info ai
+		where longitude not in('null','0','1','待定')
+		AND ai.sd_area_id = di.area_id
+        <include refid="query_tree_where" />
+	</select>
+
+    <sql id="query_tree_where">
+        <!--输入框各类条件限制-->
+        <if test="infoCustom!=null">
+            <if test="infoCustom.departName!=null and infoCustom.departName!=''">
+                and di.depart_name like '%${infoCustom.departName}%'
+            </if>
+        </if>
+    </sql>
+
+    <select id="selectInfos" parameterType="com.mio.pojo.vo.InfosQueryVo"
+            resultType="com.mio.pojo.vo.InfosCustom">
+        select 'area' as area,li.lan_name as cityName,ai.barea_name as departName,
+        null as LONGITUDE,NULL as LATITUDE,null as CITY
+        from area_info ai ,lan_info li
+        where ai.lan_id = li.lan_id
+         and ai.barea_name  like '%${infosCustom.departName}%'
+        union all
+        select 'depart' as area , substr(ai.barea_name,1,3) as cityName,
+        di.depart_name AS departName,di.longitude,di.latitude,substr(ai.barea_name,4,6) AS city
+        from depart_info di,area_info ai
+        where longitude not in('null','0','1','待定')
+        AND ai.sd_area_id = di.area_id
+        and di.depart_name like '%${infosCustom.departName}%'
+    </select>
+
+
+    <select id="selectInfoss" parameterType="com.mio.pojo.vo.InfosQueryVo"
+            resultType="com.mio.pojo.vo.InfosCustom">
+        select 'area' as area,li.lan_name as cityName,ai.barea_name as departName,
+        null as LONGITUDE,NULL as LATITUDE,null as CITY
+        from area_info ai ,lan_info li
+        where ai.lan_id = li.lan_id
+         and ai.barea_name  like '%${departName}%'
+        union all
+        select 'depart' as area , substr(ai.barea_name,1,3) as cityName,
+        di.depart_name AS departName,di.longitude,di.latitude,substr(ai.barea_name,4,6) AS city
+        from depart_info di,area_info ai
+        where longitude not in('null','0','1','待定')
+        AND ai.sd_area_id = di.area_id
+        and di.depart_name like '%${departName}%'
+    </select>
+
+
+    <select id="selectInfosss" parameterType="com.mio.pojo.vo.InfosQueryVo"
+            resultType="com.mio.pojo.vo.InfosCustom">
+        select 'area' as area,li.lan_name as cityName,ai.barea_name as departName,
+        null as LONGITUDE,NULL as LATITUDE,null as CITY
+        from area_info ai ,lan_info li
+        where ai.lan_id = li.lan_id
+        <include refid="query_tree_wheres" />
+        union all
+        select 'depart' as area , substr(ai.barea_name,1,3) as cityName,
+        di.depart_name AS departName,di.longitude,di.latitude,substr(ai.barea_name,4,6) AS city
+        from depart_info di,area_info ai
+        where longitude not in('null','0','1','待定')
+        AND ai.sd_area_id = di.area_id
+        <include refid="query_tree_wheress" />
+        ORDER BY cityName,area
+    </select>
+
+    <sql id="query_tree_wheres">
+        <if test="departNames!=null and departNames!=''">
+            and ai.barea_name  like '%${departNames}%'
+        </if>
+    </sql>
+
+    <sql id="query_tree_wheress">
+        <if test="departNames!=null and departNames!=''">
+            and di.depart_name like '%${departNames}%'
+        </if>
+    </sql>
+
+</mapper>

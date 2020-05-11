@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd">
+
+    <!-- 加载配置文件 -->
+    <context:property-placeholder location="classpath:resources/*.properties"/>
+
+    <!-- 数据库连接池 -->
+    <bean id="mysql" class="com.alibaba.druid.pool.DruidDataSource"
+          destroy-method="close">
+        <property name="url" value="${mysql.url}" />
+        <property name="username" value="${mysql.username}" />
+        <property name="password" value="${mysql.password}" />
+        <property name="driverClassName" value="${mysql.driver}" />
+        <property name="maxActive" value="10" />
+        <property name="minIdle" value="5" />
+    </bean>
+
+    <bean id="oracle" class="com.alibaba.druid.pool.DruidDataSource"
+          destroy-method="close">
+        <property name="url" value="${oracle.url}" />
+        <property name="username" value="${oracle.username}" />
+        <property name="password" value="${oracle.password}" />
+        <property name="driverClassName" value="${oracle.driver}" />
+        <property name="maxActive" value="10" />
+        <property name="minIdle" value="5" />
+    </bean>
+
+    <!-- 事务管理器 -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+    	<!-- 数据源 -->
+    	<property name="dataSource" ref="${dataSource}"/>
+    </bean>
+
+    <!-- 通知 -->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+      <tx:attributes>
+         <!-- 传播行为 -->
+        <tx:method name="save*" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
+        <tx:method name="insert*" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
+        <tx:method name="delete*" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
+        <tx:method name="update*" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
+        <tx:method name="find*" propagation="SUPPORTS" read-only="true"/>
+        <tx:method name="get*" propagation="SUPPORTS" read-only="true"/>
+      </tx:attributes>
+    </tx:advice>
+
+    <!-- 切面 开启基于注解的事务-->
+    <aop:config proxy-target-class="true">
+      <aop:advisor advice-ref="txAdvice"
+      pointcut="execution(* com.ssm.service.impl.*.*(..))"/>
+    </aop:config>
+
+   <!--<bean name="quartzScheduler"
+         class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+     &lt;!&ndash; 读取spring配置的数据库，不去加载quartz.properties &ndash;&gt;
+     <property name="dataSource" ref="mysql" />
+     <property name="applicationContextSchedulerContextKey" value="applicationContextKey" />
+     <property name="configLocation" value="classpath:resources/quartz.properties" />
+   </bean>-->
+</beans>

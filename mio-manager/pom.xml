@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>mio-parent</artifactId>
+        <groupId>com.mio</groupId>
+        <version>1.0-SNAPSHOT</version>
+        <relativePath>../mio-parent/pom.xml</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>mio-manager</artifactId>
+    <packaging>pom</packaging>
+
+    <name>mio-manager</name>
+    <!-- FIXME change it to the project's website -->
+    <url>http://www.example.com</url>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.mio</groupId>
+            <artifactId>mio-utils</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
+    <modules>
+        <module>mio-service</module>
+        <module>mio-dao</module>
+        <module>mio-interface</module>
+        <module>mio-pojo</module>
+    </modules>
+    <!-- 配置tomcat插件 -->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <!--公司-->
+                <configuration>
+                    <path>/ssyth-service</path>
+                    <port>8873</port>
+                    <url>http://10.19.193.132:8873/manager/text</url>
+                    <username>root</username>
+                    <password>mio</password>
+                    <uriEncoding>UTF-8</uriEncoding>
+                </configuration>
+
+                <!--本机-->
+               <!-- <configuration>
+                    <path>/mio-service</path>
+                    <port>8080</port>
+                    <url>http://192.168.192.131:8080/manager/text</url>
+                    <username>root</username>
+                    <password>mio</password>
+                    <uriEncoding>UTF-8</uriEncoding>
+                </configuration>-->
+            </plugin>
+        </plugins>
+    </build>
+</project>
