@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ssm.mapper.SsythMapMapper" >
+  <resultMap id="BaseResultMap" type="com.mio.pojo.vo.SsythMap" >
+    <result column="dist_sroce" property="distSroce" jdbcType="VARCHAR" />
+    <result column="x" property="x" jdbcType="VARCHAR" />
+    <result column="y" property="y" jdbcType="VARCHAR" />
+    <result column="barea_name" property="bareaName" jdbcType="VARCHAR" />
+    <result column="oll" property="oll" jdbcType="VARCHAR" />
+    <result column="zl" property="zl" jdbcType="VARCHAR" />
+    <result column="onlineper" property="onlineper" jdbcType="VARCHAR" />
+    <result column="time" property="time" jdbcType="VARCHAR" />
+    <result column="cityName" property="cityName" jdbcType="VARCHAR" />
+    <result column="busicount" property="busicount" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+  </resultMap>
+  <!--column数据库中的字段名称
+      property表示实体类中对应的字段名称
+  -->
+  <resultMap id="BaseResultMapGj" type="com.mio.pojo.vo.SsythMap" >
+      <result column="alarm_content" property="alarmContent" jdbcType="VARCHAR" />
+      <result column="is_new" property="isNew" jdbcType="VARCHAR" />
+  </resultMap>
+  <!--本机测试数据语句-->
+    <!--当日业务量-->
+  <select id="selectTdywl" resultType="java.lang.Integer" parameterType="com.mio.pojo.vo.SsythMap">
+     select sum(t.per_value) as busicount from mn_per_busicount_currval t where
+     t.data_time>=(select MAX(data_time) from  mn_per_busicount_currval)
+     and t.kpi_code='busicount' and t.object_name like '%'||#{cityName}||'%'
+  </select>
+
+    <!--当日报错量-->
+   <select id="selectTdbcl" resultType="java.lang.Integer" parameterType="com.mio.pojo.vo.SsythMap">
+    select sum(t.per_value) as crmerrocount  from mn_per_crmerrocount_currval t
+    where t.data_time>=(select MAX(data_time) from  mn_per_busicount_currval)
+    and t.kpi_code='crmerrocount' and  t.object_name =  #{cityName}
+  </select>
+
+    <!--终端信息-->
+    <select id="selectZdxx" resultMap="BaseResultMap" parameterType="com.mio.pojo.vo.SsythMap">
+        select  sum(decode(t.is_status,1,1,0)) as oll, count(1) as zl,
+        round(sum(decode(t.is_status,1,1,0))/count(1)*100) as onlineper
+        from stable_terminal_info t inner join depart_info dp on t.office_id=dp.depart_id
+        and dp.status=1 inner join area_info ai on dp.area_id=ai.sd_area_id
+        inner join lan_info l on ai.lan_id=l.lan_id where 1=1
+        <include refid="query_tree_ds" />
+    </select>
+
+    <sql id="query_tree_ds">
+        <if test="cityName!=null and cityName!=''">
+            and l.lan_name= #{cityName}
+        </if>
+    </sql>
+
+    <!--告警信息-->
+    <select id="selectGj" resultMap="BaseResultMapGj" parameterType="com.mio.pojo.vo.SsythMap">
+        select  to_char(t.lastupdate_time,'hh24:mi:ss')||'  '|| t.object_name ||' 在 '　||
+        to_char(t.last_date,'hh24:mi:ss') ||'时段 产生 ' ||t.kpi_name ||' 告警'  as alarm_content, 　
+        case when sysdate - t.lastupdate_time &lt;= 1/24/6 then 1 　else 0 end as is_new　
+        from bomc.mn_alarm_currval t where 1=1
+        <include refid="query_tree_gjds" />
+        order by t.lastupdate_time desc
+    </select>
+    <sql id="query_tree_gjds">
+        <if test="cityName!=null and cityName!=''">
+            and t.object_name  like '%'||#{cityName}||'%'
+        </if>
+    </sql>
+
+    <!--告警信息用map返回-->
+    <select id="selectGjs" resultType="java.util.HashMap" parameterType="com.mio.pojo.vo.SsythMap">
+        select  to_char(t.lastupdate_time,'hh24:mi:ss')||'  '|| t.object_name ||' 在 '　||
+        to_char(t.last_date,'hh24:mi:ss') ||'时段 产生 ' ||t.kpi_name ||' 告警'  as alarm_content, 　
+        case when sysdate - t.lastupdate_time &lt;= 1/24/6 then 1 　else 0 end as is_new　
+        from bomc.mn_alarm_currval t where 1=1
+        <include refid="query_tree_gjds" />
+        order by t.lastupdate_time desc
+    </select>
+
+
+    <!--业务量图表-->
+    <select id="selectYwltb" resultMap="BaseResultMap" parameterType="com.mio.pojo.vo.SsythMap">
+      select to_char( t.data_time,'hh24:mi:ss') as time,t.per_value as busicount
+      from mn_per_busicount_currval t where
+      t.data_time between to_date('20190131'||'080000','yyyymmddhh24miss')
+      and to_date('20190131'||'180000','yyyymmddhh24miss')
+      and t.kpi_code='busicount' and t.object_name like '%'||#{cityName}||'%' order by data_time
+  </select>
+
+    <!--报错量图表-->
+    <select id="selectBcltb" resultMap="BaseResultMap" parameterType="com.mio.pojo.vo.SsythMap">
+       select to_char( t.data_time,'hh24:mi:ss') as time, t.per_value  as busicount
+       from mn_per_crmerrocount_currval t  where
+       t.data_time between to_date('20190131'||'080000','yyyymmddhh24miss')
+       and to_date ('20190131'||'180000','yyyymmddhh24miss')
+       and t.kpi_code='crmerrocount' and  t.object_name like '%'||#{cityName}||'%'  order by t.data_time
+   </select>
+
+    <!--地市业务量排名-->
+    <select id="selectDsywpm" resultMap="BaseResultMap" parameterType="com.mio.pojo.vo.SsythMap">
+       select temp.* from ( select t.object_name as cityname ,sum(per_value) as busicount
+       from mn_per_crmerrocount_currval t where t.object_code like 'SD._%'
+       and t.data_time > (select MAX(data_time) from  mn_per_busicount_currval) and t.kpi_code='crmerrocount'
+       group by t.object_name order by  busicount desc)temp where rownum &lt; 7
+   </select>
+
+    <!--地市报错量排名-->
+    <select id="selectDsbcpm" resultMap="BaseResultMap" parameterType="com.mio.pojo.vo.SsythMap">
+     select temp.* from ( select t.object_name as cityname ,sum(per_value) as busicount
+       from mn_per_crmerrocount_currval t 　where t.object_name like '%市' 　
+       　and t.kpi_code in ('crmerrocount')　
+       group by object_name order by  busicount desc)temp where rownum &lt; 7
+   </select>
+
+    <!--饼图-->
+    <select id="selectBt" resultMap="BaseResultMap" parameterType="com.mio.pojo.vo.SsythMap">
+                select  t.kpi_name as name , sum(per_value) as busicount from
+         mn_per_crmerrocount_currval t  where t.object_name =  #{cityName}
+         and t.data_time > (select MAX(data_time) from  mn_per_busicount_currval) and t.kpi_code not in('crmerrocount')
+          group by kpi_name order by  busicount desc
+   </select>
+
+   <!--公用地图数据oracle-->
+   <!--市区详细地名得分以及坐标-->
+   <select id="selectCityInfos" resultMap="BaseResultMap" parameterType="com.mio.pojo.vo.SsythMap">
+    select  SUBSTR(barea_name,4,5) as barea_name,x,y,dist_sroce from  area_info ai,alarm_dist ad
+    where ad.in_id_sd = ai.sd_area_id
+    and barea_name like  '%'||#{bareaName}||'%'  and dist_type like '%CTY%'
+  </select>
+
+   <!--市区名称坐标详细-->
+   <select id="selectCityInfo" resultMap="BaseResultMap"
+            parameterType="com.mio.pojo.vo.SsythMap">
+    select substr(barea_name,4,3) AS barea_name ,x,y from area_info
+    where x is not null AND barea_name LIKE '%'||#{bareaName}||'%'
+  </select>
+
+   <!--搜索展示-->
+   <select id="selectSS" resultType="com.mio.pojo.vo.SsythSs"
+            parameterType="com.mio.pojo.vo.SsythSs">
+         select 'area' as area,li.lan_name as cityName,ai.barea_name as departName,
+        null as LONGITUDE,NULL as LATITUDE,null as CITY
+        from area_info ai ,lan_info li
+        where ai.lan_id = li.lan_id
+         and ai.barea_name  like '%'||#{departName}||'%'
+        union all
+        select 'depart' as area , substr(ai.barea_name,1,3) as cityName,
+        di.depart_name AS departName,di.longitude,di.latitude,substr(ai.barea_name,4,6) AS city
+        from depart_info di,area_info ai
+        where longitude not in('null','0','1','待定')
+        AND ai.sd_area_id = di.area_id
+        and di.depart_name like '%'||#{departName}||'%'
+  </select>
+
+   <!--百度地图所需信息 营业厅名称坐标得分编码 需传入具体市区明细如济南市商河县-->
+   <select id="selectYytInfo" resultType="com.mio.pojo.vo.AlarmDistCustom"
+            parameterType="com.mio.pojo.vo.AlarmDistCustom">
+        SELECT AD.dist_name,AD.dist_sroce,AD.in_id,DI.longitude,DI.latitude
+        FROM ALARM_DIST AD,DEPART_INFO DI
+        WHERE AD.DIST_TYPE = 'DEP' AND
+        AD.IN_ID_SD = (SELECT AI.SD_AREA_ID FROM AREA_INFO AI
+        WHERE BAREA_NAME = #{distName}) AND
+        AD.IN_ID = DI.DEPART_ID
+  </select>
+
+  <!--省市得分坐标名称详细-->
+   <select id="selectCity" resultMap="BaseResultMap">
+    select lan_name as barea_name,x,y,dist_sroce from lan_info li,alarm_dist ad
+    where li.lan_id_sd = ad.in_id_sd
+  </select>
+
+
+
+  <!--公司数据库语句oracle-->
+
+  <!--当日业务量-->
+  <!--<select id="selectTdywl" resultType="java.lang.Integer" parameterType="com.mio.pojo.vo.SsythMap">
+     select sum(t.per_value) as busicount from mn_per_busicount_currval t where
+     t.data_time>=trunc(sysdate) and t.kpi_code='busicount' and t.object_name like '%'||#{cityName}||'%'
+  </select>
+
+  &lt;!&ndash;当日报错量&ndash;&gt;
+  <select id="selectTdbcl" resultType="java.lang.Integer" parameterType="com.mio.pojo.vo.SsythMap">
+    select sum(t.per_value) as crmerrocount  from mn_per_crmerrocount_currval t
+    where t.data_time>=trunc(sysdate) and t.kpi_code='crmerrocount' and  t.object_name =  #{cityName}
+  </select>
+
+    &lt;!&ndash;终端信息&ndash;&gt;
+  <select id="selectZdxx" resultMap="BaseResultMap" parameterType="com.mio.pojo.vo.SsythMap">
+    select  sum(decode(t.is_status,1,1,0)) as oll, count(1) as zl,
+    round(sum(decode(t.is_status,1,1,0))/count(1)*100) as onlineper
+    from stable_terminal_info t inner join depart_info dp on t.office_id=dp.depart_id
+    and dp.status=1 inner join area_info ai on dp.area_id=ai.sd_area_id
+    inner join lan_info l on ai.lan_id=l.lan_id where 1=1
+    <include refid="query_tree_ds" />
+  </select>
+
+  <sql id="query_tree_ds">
+    <if test="cityName!=null and cityName!=''">
+      and l.lan_name= #{cityName}
+    </if>
+  </sql>
+
+  &lt;!&ndash;告警&ndash;&gt;
+  <select id="selectGjs" resultType="java.util.HashMap" parameterType="com.mio.pojo.vo.SsythMap">
+    select  to_char(t.lastupdate_time,'hh24:mi:ss')||'  '|| t.object_name ||' 在 '　||
+    to_char(t.last_date,'hh24:mi:ss') ||'时段 产生 ' ||t.kpi_name ||' 告警'  as alarm_content, 　
+    case when sysdate - t.lastupdate_time &lt;= 1/24/6 then 1 　else 0 end as is_new　
+    from bomc.mn_alarm_currval t where 1=1
+    <include refid="query_tree_gjds" />
+    order by t.lastupdate_time desc
+  </select>
+  <sql id="query_tree_gjds">
+    <if test="cityName!=null and cityName!=''">
+      and t.object_name  like '%'||#{cityName}||'%'
+    </if>
+  </sql>
+  &lt;!&ndash;业务量图表&ndash;&gt;
+  <select id="selectYwltb" resultMap="BaseResultMap" parameterType="com.mio.pojo.vo.SsythMap">
+      select to_char( t.data_time,'hh24:mi:ss') as time,t.per_value as busicount
+      from mn_per_busicount_currval t where
+      t.data_time between to_date(to_char(sysdate,'yyyymmdd')||'080000','yyyymmddhh24miss')
+      and to_date(to_char(sysdate,'yyyymmdd')||'180000','yyyymmddhh24miss')
+      and t.kpi_code='busicount' and t.object_name like '%'||#{cityName}||'%' order by data_time
+  </select>
+
+   &lt;!&ndash;报错量图表&ndash;&gt;
+   <select id="selectBcltb" resultMap="BaseResultMap" parameterType="com.mio.pojo.vo.SsythMap">
+       select to_char( t.data_time,'hh24:mi:ss') as time, t.per_value  as busicount
+       from mn_per_crmerrocount_currval t  where
+       t.data_time between to_date(to_char(sysdate,'yyyymmdd')||'080000','yyyymmddhh24miss')
+       and to_date (to_char(sysdate,'yyyymmdd')||'180000','yyyymmddhh24miss')
+       and t.kpi_code='crmerrocount' and  t.object_name like '%'||#{cityName}||'%'  order by t.data_time
+   </select>
+
+   &lt;!&ndash;地市业务量排名&ndash;&gt;
+   <select id="selectDsywpm" resultMap="BaseResultMap" parameterType="com.mio.pojo.vo.SsythMap">
+       select temp.* from ( select t.object_name as cityname ,sum(per_value) as busicount
+       from mn_per_crmerrocount_currval t where t.object_code like 'SD._%'
+       and t.data_time > trunc(sysdate) and t.kpi_code='crmerrocount'
+       group by t.object_name order by  busicount desc)temp where rownum &lt; 7
+   </select>
+
+
+   &lt;!&ndash;地市报错量排名&ndash;&gt;
+   <select id="selectDsbcpm" resultMap="BaseResultMap" parameterType="com.mio.pojo.vo.SsythMap">
+     select temp.* from ( select t.object_name as cityname ,sum(per_value) as busicount
+       from mn_per_crmerrocount_currval t 　where t.object_name like '%市' 　
+       and t.created_time >= sysdate -1/24/6　and t.kpi_code in ('crmerrocount')　
+       group by object_name order by  busicount desc)temp where rownum &lt; 7
+   </select>
+
+   &lt;!&ndash;饼图&ndash;&gt;
+   <select id="selectBt" resultMap="BaseResultMap" parameterType="com.mio.pojo.vo.SsythMap">
+                select  t.kpi_name as name , sum(per_value) as busicount from
+         mn_per_crmerrocount_currval t  where t.object_name =  #{cityName}
+         and t.data_time > trunc(sysdate) and t.kpi_code not in('crmerrocount')
+          group by kpi_name order by  busicount desc
+   </select>
+-->
+
+
+
+    <!--mysql-->
+
+    <!--  <select id="selectByBName" resultMap="BaseResultMap" parameterType="com.mio.pojo.vo.SsythMap">
+    select  SUBSTR(barea_name,4,5) as barea_name,x,y,dist_sroce from  area_info ai,alarm_dist ad
+    where ad.in_id_sd = ai.sd_area_id
+    and barea_name like  "%"#{bareaName}"%"  and dist_type like '%CTY%'
+  </select>-->
+
+  <!--<select id="selectCityX" resultMap="BaseResultMap"
+          parameterType="com.mio.pojo.vo.SsythMap">
+    select substr(barea_name,4,3) AS barea_name ,x,y from area_info
+    where x is not null AND barea_name LIKE "%"#{bareaName}"%"
+  </select>-->
+
+    <!--<select id="selectSS" resultType="com.mio.pojo.vo.SsythSs"
+            parameterType="com.mio.pojo.vo.SsythSs">
+         select 'area' as area,li.lan_name as cityName,ai.barea_name as departName,
+        null as LONGITUDE,NULL as LATITUDE,null as CITY
+        from area_info ai ,lan_info li
+        where ai.lan_id = li.lan_id
+         and ai.barea_name  like "%"#{departName}"%"
+        union all
+        select 'depart' as area , substr(ai.barea_name,1,3) as cityName,
+        di.depart_name AS departName,di.longitude,di.latitude,substr(ai.barea_name,4,6) AS city
+        from depart_info di,area_info ai
+        where longitude not in('null','0','1','待定')
+        AND ai.sd_area_id = di.area_id
+        and di.depart_name like "%"#{departName}"%"
+  </select>-->
+
+
+
+
+
+</mapper>

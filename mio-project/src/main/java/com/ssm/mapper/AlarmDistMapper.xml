@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ssm.mapper.AlarmDistMapper" >
+  <resultMap id="BaseResultMap" type="com.mio.pojo.AlarmDist" >
+    <result column="DIST_TYPE" property="distType" jdbcType="VARCHAR" />
+    <result column="DIST_NAME" property="distName" jdbcType="VARCHAR" />
+    <result column="DIST_SROCE" property="distSroce" jdbcType="DECIMAL" />
+    <result column="DIST_COUNT" property="distCount" jdbcType="DECIMAL" />
+    <result column="IN_TIME" property="inTime" jdbcType="VARCHAR" />
+    <result column="IN_ID" property="inId" jdbcType="VARCHAR" />
+    <result column="IN_ID_SD" property="inIdSd" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    DIST_TYPE, DIST_NAME, DIST_SROCE, DIST_COUNT, IN_TIME, IN_ID, IN_ID_SD
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mio.pojo.AlarmDistExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from alarm_dist
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.mio.pojo.AlarmDistExample" >
+    delete from alarm_dist
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mio.pojo.AlarmDist" >
+    insert into alarm_dist (DIST_TYPE, DIST_NAME, DIST_SROCE, 
+      DIST_COUNT, IN_TIME, IN_ID, 
+      IN_ID_SD)
+    values (#{distType,jdbcType=VARCHAR}, #{distName,jdbcType=VARCHAR}, #{distSroce,jdbcType=DECIMAL}, 
+      #{distCount,jdbcType=DECIMAL}, #{inTime,jdbcType=VARCHAR}, #{inId,jdbcType=VARCHAR}, 
+      #{inIdSd,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mio.pojo.AlarmDist" >
+    insert into alarm_dist
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="distType != null" >
+        DIST_TYPE,
+      </if>
+      <if test="distName != null" >
+        DIST_NAME,
+      </if>
+      <if test="distSroce != null" >
+        DIST_SROCE,
+      </if>
+      <if test="distCount != null" >
+        DIST_COUNT,
+      </if>
+      <if test="inTime != null" >
+        IN_TIME,
+      </if>
+      <if test="inId != null" >
+        IN_ID,
+      </if>
+      <if test="inIdSd != null" >
+        IN_ID_SD,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="distType != null" >
+        #{distType,jdbcType=VARCHAR},
+      </if>
+      <if test="distName != null" >
+        #{distName,jdbcType=VARCHAR},
+      </if>
+      <if test="distSroce != null" >
+        #{distSroce,jdbcType=DECIMAL},
+      </if>
+      <if test="distCount != null" >
+        #{distCount,jdbcType=DECIMAL},
+      </if>
+      <if test="inTime != null" >
+        #{inTime,jdbcType=VARCHAR},
+      </if>
+      <if test="inId != null" >
+        #{inId,jdbcType=VARCHAR},
+      </if>
+      <if test="inIdSd != null" >
+        #{inIdSd,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mio.pojo.AlarmDistExample" resultType="java.lang.Integer" >
+    select count(*) from alarm_dist
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update alarm_dist
+    <set >
+      <if test="record.distType != null" >
+        DIST_TYPE = #{record.distType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.distName != null" >
+        DIST_NAME = #{record.distName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.distSroce != null" >
+        DIST_SROCE = #{record.distSroce,jdbcType=DECIMAL},
+      </if>
+      <if test="record.distCount != null" >
+        DIST_COUNT = #{record.distCount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.inTime != null" >
+        IN_TIME = #{record.inTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inId != null" >
+        IN_ID = #{record.inId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inIdSd != null" >
+        IN_ID_SD = #{record.inIdSd,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update alarm_dist
+    set DIST_TYPE = #{record.distType,jdbcType=VARCHAR},
+      DIST_NAME = #{record.distName,jdbcType=VARCHAR},
+      DIST_SROCE = #{record.distSroce,jdbcType=DECIMAL},
+      DIST_COUNT = #{record.distCount,jdbcType=DECIMAL},
+      IN_TIME = #{record.inTime,jdbcType=VARCHAR},
+      IN_ID = #{record.inId,jdbcType=VARCHAR},
+      IN_ID_SD = #{record.inIdSd,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

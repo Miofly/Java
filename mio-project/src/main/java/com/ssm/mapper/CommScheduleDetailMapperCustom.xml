@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ssm.mapper.CommScheduleDetailMapperCustom" >
+
+     <resultMap id="BaseResultMap" type="com.ssm.pojo.vo.CommScheduleDetailVo" >
+          <result column="sch_Id" property="id" jdbcType="DECIMAL" />
+          <result column="sch_type" property="sch_type" jdbcType="VARCHAR" />
+          <result column="title" property="title" jdbcType="VARCHAR" />
+          <result column="start" property="start" jdbcType="VARCHAR" />
+          <result column="end" property="end" jdbcType="VARCHAR" />
+          <result column="sch_color" property="backgroundColor" jdbcType="VARCHAR" />
+     </resultMap>
+
+     <resultMap id="BaseResultMaps" type="com.ssm.pojo.vo.CommScheduleManageVo" >
+          <id column="SCH_ID" property="schId" jdbcType="DECIMAL" />
+          <result column="SCH_TYPE" property="schType" jdbcType="VARCHAR" />
+          <result column="SCH_SUBSCRIBE" property="schSubscribe" jdbcType="VARCHAR" />
+          <result column="SCH_TITLE" property="schTitle" jdbcType="VARCHAR" />
+          <result column="SCH_DESC" property="schDesc" jdbcType="VARCHAR" />
+          <result column="BEGIN_TIME" property="beginTime" jdbcType="TIMESTAMP" />
+          <result column="END_TIME" property="endTime" jdbcType="TIMESTAMP" />
+          <result column="CREATED_TIME" property="createdTime" jdbcType="DATE" />
+          <result column="CREATED_USERID" property="createdUserid" jdbcType="VARCHAR" />
+          <result column="CREATED_USERNAME" property="createdUsername" jdbcType="VARCHAR" />
+          <result column="RES_FIELD1" property="resField1" jdbcType="VARCHAR" />
+          <result column="RES_FIELD2" property="resField2" jdbcType="VARCHAR" />
+          <result column="RES_FIELD3" property="resField3" jdbcType="VARCHAR" />
+          <result column="RES_FIELD4" property="resField4" jdbcType="VARCHAR" />
+          <result column="RES_FIELD5" property="resField5" jdbcType="VARCHAR" />
+          <result column="SCH_SUBTYPE" property="schSubtype" jdbcType="VARCHAR" />
+          <result column="SCH_SUBTYPE" property="schSubtype" jdbcType="VARCHAR" />
+          <result column="SCH_TYPENAME" property="schTypename" jdbcType="VARCHAR" />
+     </resultMap>
+
+
+  <select id="selectSchedule" parameterType="com.ssm.pojo.vo.CommScheduleManageVo"
+          resultMap="BaseResultMap">
+       select t.sch_id,
+       t.sch_type,
+       t.sch_title as "title",
+       to_char(t.begin_time, 'yyyy-mm-dd') as "start",
+       to_char(t.end_time + 1, 'yyyy-mm-dd') as "end",
+       a.sch_color,
+       t.created_userid
+       from comm_schedule_manage t
+       inner join dict_schtype a
+       on t.sch_type = a.sch_type
+       where not
+       (end_time  &lt; to_date(#{timeStr} || '01000000', 'yyyymmddhh24miss') or
+       begin_time >=
+       add_months(to_date(#{timeStr} || '01000000', 'yyyymmddhh24miss'), 1))
+       and f_comm_schissubscribe(#{createdUserid},t.sch_subscribe)=1
+      <include refid="yw_type" />
+  </select>
+
+  <sql id="yw_type">
+    <if test="schTypename!=null and schTypename!=''">
+      and t.sch_type = #{schTypename}
+    </if>
+  </sql>
+     <!--createdUserid-->
+     <!--createdUsername-->
+
+
+     <!--根据id获得主事件-->
+     <select id="selectEvent" parameterType="com.ssm.pojo.vo.CommScheduleManageVo"
+             resultMap="BaseResultMaps">
+          SELECT ds.SCH_TYPENAME,cm.*
+          FROM "COMM_SCHEDULE_MANAGE" cm,DICT_SCHTYPE ds
+          where ds.SCH_TYPE = cm.SCH_TYPE and SCH_ID = #{schId}
+     </select>
+
+     <!--获取新增ID-->
+     <select id="selectEventId"
+             resultType="java.lang.Integer">
+       select MAX(SCH_ID) AS "id" from COMM_SCHEDULE_MANAGE
+     </select>
+
+    <!--根据组ID查看组成员信息-->
+     <select id="selGroupById" resultType="java.util.HashMap" parameterType="String">
+         SELECT b.id ,b.NAME FROM COMM_USER_ORG a
+         INNER JOIN COMM_USER b on a.USERID=b.ID and b.STATUS=1
+         where a.ORGID= #{id}
+     </select>
+
+    <select id="selectNameById" resultType="java.util.HashMap">
+         SELECT id,name FROM COMM_USER WHERE ID  like '%'||#{id}||'%'
+     </select>
+
+    <select id="selectTreeAll" resultType="com.ssm.pojo.CommOrganization">
+       select * from COMM_ORGANIZATION start with id= 1
+      connect by prior id  = PARENTID
+    </select>
+
+
+</mapper>

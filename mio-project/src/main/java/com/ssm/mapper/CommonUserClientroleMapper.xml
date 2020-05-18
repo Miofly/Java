@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ssm.mapper.CommonUserClientroleMapper" >
+  <resultMap id="BaseResultMap" type="com.ssm.pojo.CommonUserClientrole" >
+    <id column="USERID" property="userid" jdbcType="VARCHAR" />
+    <id column="ROLEID" property="roleid" jdbcType="VARCHAR" />
+    <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="STATUS" property="status" jdbcType="INTEGER" />
+    <result column="RES_FIELD1" property="resField1" jdbcType="VARCHAR" />
+    <result column="RES_FIELD2" property="resField2" jdbcType="VARCHAR" />
+    <result column="RES_FIELD3" property="resField3" jdbcType="VARCHAR" />
+    <result column="RES_FIELD4" property="resField4" jdbcType="VARCHAR" />
+    <result column="RES_FIELD5" property="resField5" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    USERID, ROLEID, start_time, end_time, STATUS, RES_FIELD1, RES_FIELD2, RES_FIELD3, 
+    RES_FIELD4, RES_FIELD5
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.ssm.pojo.CommonUserClientroleExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from common_user_clientrole
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.ssm.pojo.CommonUserClientroleKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from common_user_clientrole
+    where USERID = #{userid,jdbcType=VARCHAR}
+      and ROLEID = #{roleid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.ssm.pojo.CommonUserClientroleKey" >
+    delete from common_user_clientrole
+    where USERID = #{userid,jdbcType=VARCHAR}
+      and ROLEID = #{roleid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ssm.pojo.CommonUserClientroleExample" >
+    delete from common_user_clientrole
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ssm.pojo.CommonUserClientrole" >
+    insert into common_user_clientrole (USERID, ROLEID, start_time, 
+      end_time, STATUS, RES_FIELD1, 
+      RES_FIELD2, RES_FIELD3, RES_FIELD4, 
+      RES_FIELD5)
+    values (#{userid,jdbcType=VARCHAR}, #{roleid,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, 
+      #{endTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, #{resField1,jdbcType=VARCHAR}, 
+      #{resField2,jdbcType=VARCHAR}, #{resField3,jdbcType=VARCHAR}, #{resField4,jdbcType=VARCHAR}, 
+      #{resField5,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ssm.pojo.CommonUserClientrole" >
+    insert into common_user_clientrole
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userid != null" >
+        USERID,
+      </if>
+      <if test="roleid != null" >
+        ROLEID,
+      </if>
+      <if test="startTime != null" >
+        start_time,
+      </if>
+      <if test="endTime != null" >
+        end_time,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="resField1 != null" >
+        RES_FIELD1,
+      </if>
+      <if test="resField2 != null" >
+        RES_FIELD2,
+      </if>
+      <if test="resField3 != null" >
+        RES_FIELD3,
+      </if>
+      <if test="resField4 != null" >
+        RES_FIELD4,
+      </if>
+      <if test="resField5 != null" >
+        RES_FIELD5,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userid != null" >
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="roleid != null" >
+        #{roleid,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="resField1 != null" >
+        #{resField1,jdbcType=VARCHAR},
+      </if>
+      <if test="resField2 != null" >
+        #{resField2,jdbcType=VARCHAR},
+      </if>
+      <if test="resField3 != null" >
+        #{resField3,jdbcType=VARCHAR},
+      </if>
+      <if test="resField4 != null" >
+        #{resField4,jdbcType=VARCHAR},
+      </if>
+      <if test="resField5 != null" >
+        #{resField5,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ssm.pojo.CommonUserClientroleExample" resultType="java.lang.Integer" >
+    select count(*) from common_user_clientrole
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update common_user_clientrole
+    <set >
+      <if test="record.userid != null" >
+        USERID = #{record.userid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.roleid != null" >
+        ROLEID = #{record.roleid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.startTime != null" >
+        start_time = #{record.startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.endTime != null" >
+        end_time = #{record.endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.status != null" >
+        STATUS = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.resField1 != null" >
+        RES_FIELD1 = #{record.resField1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.resField2 != null" >
+        RES_FIELD2 = #{record.resField2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.resField3 != null" >
+        RES_FIELD3 = #{record.resField3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.resField4 != null" >
+        RES_FIELD4 = #{record.resField4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.resField5 != null" >
+        RES_FIELD5 = #{record.resField5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update common_user_clientrole
+    set USERID = #{record.userid,jdbcType=VARCHAR},
+      ROLEID = #{record.roleid,jdbcType=VARCHAR},
+      start_time = #{record.startTime,jdbcType=TIMESTAMP},
+      end_time = #{record.endTime,jdbcType=TIMESTAMP},
+      STATUS = #{record.status,jdbcType=INTEGER},
+      RES_FIELD1 = #{record.resField1,jdbcType=VARCHAR},
+      RES_FIELD2 = #{record.resField2,jdbcType=VARCHAR},
+      RES_FIELD3 = #{record.resField3,jdbcType=VARCHAR},
+      RES_FIELD4 = #{record.resField4,jdbcType=VARCHAR},
+      RES_FIELD5 = #{record.resField5,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ssm.pojo.CommonUserClientrole" >
+    update common_user_clientrole
+    <set >
+      <if test="startTime != null" >
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="resField1 != null" >
+        RES_FIELD1 = #{resField1,jdbcType=VARCHAR},
+      </if>
+      <if test="resField2 != null" >
+        RES_FIELD2 = #{resField2,jdbcType=VARCHAR},
+      </if>
+      <if test="resField3 != null" >
+        RES_FIELD3 = #{resField3,jdbcType=VARCHAR},
+      </if>
+      <if test="resField4 != null" >
+        RES_FIELD4 = #{resField4,jdbcType=VARCHAR},
+      </if>
+      <if test="resField5 != null" >
+        RES_FIELD5 = #{resField5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where USERID = #{userid,jdbcType=VARCHAR}
+      and ROLEID = #{roleid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ssm.pojo.CommonUserClientrole" >
+    update common_user_clientrole
+    set start_time = #{startTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      STATUS = #{status,jdbcType=INTEGER},
+      RES_FIELD1 = #{resField1,jdbcType=VARCHAR},
+      RES_FIELD2 = #{resField2,jdbcType=VARCHAR},
+      RES_FIELD3 = #{resField3,jdbcType=VARCHAR},
+      RES_FIELD4 = #{resField4,jdbcType=VARCHAR},
+      RES_FIELD5 = #{resField5,jdbcType=VARCHAR}
+    where USERID = #{userid,jdbcType=VARCHAR}
+      and ROLEID = #{roleid,jdbcType=VARCHAR}
+  </update>
+</mapper>

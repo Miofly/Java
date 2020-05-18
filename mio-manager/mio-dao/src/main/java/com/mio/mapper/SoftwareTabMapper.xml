@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mio.mapper.SoftwareTabMapper" >
+  <resultMap id="BaseResultMap" type="com.mio.pojo.SoftwareTab" >
+    <result column="tab_code" property="tabCode" jdbcType="VARCHAR" />
+    <result column="tab_name" property="tabName" jdbcType="VARCHAR" />
+    <result column="tab_order" property="tabOrder" jdbcType="INTEGER" />
+    <result column="tab_status" property="tabStatus" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    tab_code, tab_name, tab_order, tab_status
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mio.pojo.SoftwareTabExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from software_tab
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.mio.pojo.SoftwareTabExample" >
+    delete from software_tab
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mio.pojo.SoftwareTab" >
+    insert into software_tab (tab_code, tab_name, tab_order, 
+      tab_status)
+    values (#{tabCode,jdbcType=VARCHAR}, #{tabName,jdbcType=VARCHAR}, #{tabOrder,jdbcType=INTEGER}, 
+      #{tabStatus,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mio.pojo.SoftwareTab" >
+    insert into software_tab
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="tabCode != null" >
+        tab_code,
+      </if>
+      <if test="tabName != null" >
+        tab_name,
+      </if>
+      <if test="tabOrder != null" >
+        tab_order,
+      </if>
+      <if test="tabStatus != null" >
+        tab_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="tabCode != null" >
+        #{tabCode,jdbcType=VARCHAR},
+      </if>
+      <if test="tabName != null" >
+        #{tabName,jdbcType=VARCHAR},
+      </if>
+      <if test="tabOrder != null" >
+        #{tabOrder,jdbcType=INTEGER},
+      </if>
+      <if test="tabStatus != null" >
+        #{tabStatus,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mio.pojo.SoftwareTabExample" resultType="java.lang.Integer" >
+    select count(*) from software_tab
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update software_tab
+    <set >
+      <if test="record.tabCode != null" >
+        tab_code = #{record.tabCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tabName != null" >
+        tab_name = #{record.tabName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tabOrder != null" >
+        tab_order = #{record.tabOrder,jdbcType=INTEGER},
+      </if>
+      <if test="record.tabStatus != null" >
+        tab_status = #{record.tabStatus,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update software_tab
+    set tab_code = #{record.tabCode,jdbcType=VARCHAR},
+      tab_name = #{record.tabName,jdbcType=VARCHAR},
+      tab_order = #{record.tabOrder,jdbcType=INTEGER},
+      tab_status = #{record.tabStatus,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+
+  <select id="selectTypeName" resultMap="BaseResultMap" parameterType="com.mio.pojo.SoftwareTabExample" >
+      SELECT tab_code,tab_name FROM `software_tab` where tab_name!='关于'
+  </select>
+
+  <select id="selectTypeNameA" resultMap="BaseResultMap" parameterType="com.mio.pojo.SoftwareTabExample" >
+    SELECT tab_code,tab_name FROM `software_tab` where tab_name!='关于' and tab_name!='全部软件'
+  </select>
+
+  <select id="selectTypeNameB" resultMap="BaseResultMap" parameterType="com.mio.pojo.SoftwareTabExample" >
+    SELECT tab_name,tab_code FROM `software_tab`  where tab_code= #{tabCode}
+  </select>
+
+  <select id="selectTypeNameC" resultMap="BaseResultMap" parameterType="com.mio.pojo.SoftwareTabExample" >
+    SELECT tab_code,tab_name FROM `software_tab` where tab_name!='关于' and tab_name!='全部软件' and tab_code!= #{tabCode}
+  </select>
+</mapper>

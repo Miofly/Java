@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AjcSettings">
+    <option name="cmdLineParams" value="-showWeaveInfo" />
+  </component>
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="mio-dao" />
+        <module name="mio-interface" />
+        <module name="mio-pojo" />
+        <module name="mio-project" />
+        <module name="mio-search" />
+        <module name="mio-service" />
+        <module name="mio-utils" />
+        <module name="wfd-project" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel target="8">
+      <module name="mio-dao" target="1.8" />
+      <module name="mio-interface" target="1.8" />
+      <module name="mio-manager" target="1.8" />
+      <module name="mio-parent" target="1.8" />
+      <module name="mio-pojo" target="1.8" />
+      <module name="mio-project" target="1.8" />
+      <module name="mio-search" target="1.8" />
+      <module name="mio-service" target="1.8" />
+      <module name="mio-utils" target="1.8" />
+      <module name="mio-web" target="1.8" />
+      <module name="wfd-project" target="1.7" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

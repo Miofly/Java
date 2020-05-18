@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+		http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+
+    <!-- 组件扫描 扫描所有标记@Controller类，由于使用自动扫描所以controller类不用在spring配置文件中配置 -->
+    <context:component-scan base-package="com.ssm.controller"/>
+
+    <!-- 视图解析器 -->
+    <!--<bean
+        class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        &lt;!&ndash; 将jstl的jar包加入工程，默认支持jstl &ndash;&gt;
+        &lt;!&ndash; 前缀和后缀可以去掉的，为了方便开发才加的 &ndash;&gt;
+        <property name="prefix" value="/WEB-INF/jsp/" />
+        <property name="suffix" value=".jsp" />
+    </bean>-->
+
+    <!-- 视图解析器1:html视图解析器 必须先配置freemarkerConfig,注意html是没有prefix前缀属性的 -->
+    <bean id="freemarkerConfig"
+          class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+        <property name="freemarkerSettings">
+            <bean class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+                <property name="properties">
+                    <props>
+                        <prop key="default_encoding">utf-8</prop>
+                        <prop key="output_encoding">utf-8</prop>
+                    </props>
+                </property>
+            </bean>
+        </property>
+        <property name="templateLoaderPath">
+            <value>/WEB-INF/html/</value>
+        </property>
+    </bean>
+    <bean id="htmlviewResolver"
+          class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver"
+          p:suffix=".html" p:order="0">
+        <property name="contentType" value="text/html;charset=UTF-8"/>
+    </bean>
+    <!-- 视图解析器2:jsp视图解析器 -->
+    <bean id="jspviewResolver"
+          class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+          p:prefix="/WEB-INF/jsp/" p:suffix=".jsp" p:order="1">
+        <property name="contentType" value="text/html;charset=UTF-8"/>
+    </bean>
+
+    <!--两个标准配置-->
+    <!--将springmvc不能处理的请求交给tomcat-->
+    <mvc:default-servlet-handler/>
+    <!--能支持springmvc更高级的一些功能 JSR303校验-->
+    <mvc:annotation-driven/>
+
+    <!-- json转换器 -->
+    <bean id="jsonMessageConverter"
+          class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+    </bean>
+
+    <!--对doa，service，action所抛出的异常进行统一处理，在action中就不需要加try/catch方法-->
+    <!-- 统一异常处理类 handlerExceptionResolver要在web.xml配置前端控制器 -->
+    <bean id="handlerExceptionResolver"
+          class="com.mio.global.GlodeExceptionHandle">
+        <!-- 注入一个json转换器 -->
+        <property name="jsonMessageConverter" ref="jsonMessageConverter"/>
+    </bean>
+    <!-- 文件上传 -->
+    <!--<bean id="multipartResolver"-->
+    <!--class="org.springframework.web.multipart.commons.CommonsMultipartResolver">-->
+    <!---->
+    <!--</bean>-->
+
+    <bean id="multipartResolver" class="com.ssm.controller.CustomMultipartResolver">
+        <property name="defaultEncoding" value="UTF-8"/>
+        <property name="maxUploadSize" value="5242800000"/>
+        <!--resolveLazily属性启用是为了推迟文件解析，以便在UploadAction 中捕获文件大小异常-->
+        <property name="resolveLazily" value="true"/>
+    </bean>
+
+    <!-- SpringMVC在超出上传文件限制时，会抛出org.springframework.web.multipart.MaxUploadSizeExceededException -->
+    <!-- 该异常是SpringMVC在检查上传的文件信息时抛出来的，而且此时还没有进入到Controller方法中 -->
+    <bean id="exceptionResolver"
+          class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <property name="exceptionMappings">
+            <props>
+                <!-- 遇到MaxUploadSizeExceededException异常时，自动跳转到XXX页面 -->
+                <prop key="org.springframework.web.multipart.MaxUploadSizeExceededException">
+                    redirect:/login
+                </prop>
+            </props>
+        </property>
+    </bean>
+
+    <!--拦截器-->
+    <mvc:interceptors>
+        <!-- 多个拦截器,顺序执行 -->
+        <!-- 用户身份校验的拦截器 -->
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="com.ssm.filter.LoginInterceptor"></bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+    <!-- 使用spring提供的PropertyPlaceholderConfigurer读取properties -->
+    <bean id="propertyPlaceHolderConfigurer"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE"/>
+        <property name="ignoreResourceNotFound" value="true"/>
+        <property name="locations">
+            <list>
+                <!-- 把需要配置的properties文件配置在这里，可以有多个 -->
+                <value>classpath:resources/resource.properties</value>
+                <value>classpath:resources/messages.properties</value>
+            </list>
+        </property>
+    </bean>
+
+</beans>

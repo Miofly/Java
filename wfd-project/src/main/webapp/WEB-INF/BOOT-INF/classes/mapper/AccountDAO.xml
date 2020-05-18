@@ -1,0 +1,524 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.toby.pay.dao.AccountDAO">
+  <resultMap id="BaseResultMap" type="com.toby.pay.model.mybatis.Account">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="channel_id" jdbcType="INTEGER" property="channelId" />
+    <result column="merchant_id" jdbcType="INTEGER" property="merchantId" />
+    <result column="super_app_id" jdbcType="VARCHAR" property="superAppId" />
+    <result column="super_mch_id" jdbcType="VARCHAR" property="superMchId" />
+    <result column="super_sub_appid" jdbcType="VARCHAR" property="superSubAppid" />
+    <result column="super_sub_mch_id" jdbcType="VARCHAR" property="superSubMchId" />
+    <result column="super_app_auth_token" jdbcType="VARCHAR" property="superAppAuthToken" />
+    <result column="super_store_id" jdbcType="VARCHAR" property="superStoreId" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="day_limit" jdbcType="DECIMAL" property="dayLimit" />
+    <result column="day_statistic" jdbcType="DECIMAL" property="dayStatistic" />
+    <result column="per_max" jdbcType="DECIMAL" property="perMax" />
+    <result column="per_min" jdbcType="DECIMAL" property="perMin" />
+    <result column="rate" jdbcType="INTEGER" property="rate" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.toby.pay.model.mybatis.AccountWithBLOBs">
+    <result column="super_public_key" jdbcType="LONGVARCHAR" property="superPublicKey" />
+    <result column="super_merchant_public_key" jdbcType="LONGVARCHAR" property="superMerchantPublicKey" />
+    <result column="super_merchant_private_key" jdbcType="LONGVARCHAR" property="superMerchantPrivateKey" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, `name`, channel_id, merchant_id, super_app_id, super_mch_id, super_sub_appid, 
+    super_sub_mch_id, super_app_auth_token, super_store_id, `status`, create_time, day_limit, 
+    day_statistic, per_max, per_min, rate
+  </sql>
+  <sql id="Blob_Column_List">
+    super_public_key, super_merchant_public_key, super_merchant_private_key
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.toby.pay.model.mybatis.AccountExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from account
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.toby.pay.model.mybatis.AccountExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from account
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from account
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from account
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.toby.pay.model.mybatis.AccountExample">
+    delete from account
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.toby.pay.model.mybatis.AccountWithBLOBs" useGeneratedKeys="true">
+    insert into account (`name`, channel_id, merchant_id, 
+      super_app_id, super_mch_id, super_sub_appid, 
+      super_sub_mch_id, super_app_auth_token, super_store_id, 
+      `status`, create_time, day_limit, 
+      day_statistic, per_max, per_min, 
+      rate, super_public_key, super_merchant_public_key, 
+      super_merchant_private_key)
+    values (#{name,jdbcType=VARCHAR}, #{channelId,jdbcType=INTEGER}, #{merchantId,jdbcType=INTEGER}, 
+      #{superAppId,jdbcType=VARCHAR}, #{superMchId,jdbcType=VARCHAR}, #{superSubAppid,jdbcType=VARCHAR}, 
+      #{superSubMchId,jdbcType=VARCHAR}, #{superAppAuthToken,jdbcType=VARCHAR}, #{superStoreId,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{dayLimit,jdbcType=DECIMAL}, 
+      #{dayStatistic,jdbcType=DECIMAL}, #{perMax,jdbcType=DECIMAL}, #{perMin,jdbcType=DECIMAL}, 
+      #{rate,jdbcType=INTEGER}, #{superPublicKey,jdbcType=LONGVARCHAR}, #{superMerchantPublicKey,jdbcType=LONGVARCHAR}, 
+      #{superMerchantPrivateKey,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.toby.pay.model.mybatis.AccountWithBLOBs" useGeneratedKeys="true">
+    insert into account
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        `name`,
+      </if>
+      <if test="channelId != null">
+        channel_id,
+      </if>
+      <if test="merchantId != null">
+        merchant_id,
+      </if>
+      <if test="superAppId != null">
+        super_app_id,
+      </if>
+      <if test="superMchId != null">
+        super_mch_id,
+      </if>
+      <if test="superSubAppid != null">
+        super_sub_appid,
+      </if>
+      <if test="superSubMchId != null">
+        super_sub_mch_id,
+      </if>
+      <if test="superAppAuthToken != null">
+        super_app_auth_token,
+      </if>
+      <if test="superStoreId != null">
+        super_store_id,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="dayLimit != null">
+        day_limit,
+      </if>
+      <if test="dayStatistic != null">
+        day_statistic,
+      </if>
+      <if test="perMax != null">
+        per_max,
+      </if>
+      <if test="perMin != null">
+        per_min,
+      </if>
+      <if test="rate != null">
+        rate,
+      </if>
+      <if test="superPublicKey != null">
+        super_public_key,
+      </if>
+      <if test="superMerchantPublicKey != null">
+        super_merchant_public_key,
+      </if>
+      <if test="superMerchantPrivateKey != null">
+        super_merchant_private_key,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="channelId != null">
+        #{channelId,jdbcType=INTEGER},
+      </if>
+      <if test="merchantId != null">
+        #{merchantId,jdbcType=INTEGER},
+      </if>
+      <if test="superAppId != null">
+        #{superAppId,jdbcType=VARCHAR},
+      </if>
+      <if test="superMchId != null">
+        #{superMchId,jdbcType=VARCHAR},
+      </if>
+      <if test="superSubAppid != null">
+        #{superSubAppid,jdbcType=VARCHAR},
+      </if>
+      <if test="superSubMchId != null">
+        #{superSubMchId,jdbcType=VARCHAR},
+      </if>
+      <if test="superAppAuthToken != null">
+        #{superAppAuthToken,jdbcType=VARCHAR},
+      </if>
+      <if test="superStoreId != null">
+        #{superStoreId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dayLimit != null">
+        #{dayLimit,jdbcType=DECIMAL},
+      </if>
+      <if test="dayStatistic != null">
+        #{dayStatistic,jdbcType=DECIMAL},
+      </if>
+      <if test="perMax != null">
+        #{perMax,jdbcType=DECIMAL},
+      </if>
+      <if test="perMin != null">
+        #{perMin,jdbcType=DECIMAL},
+      </if>
+      <if test="rate != null">
+        #{rate,jdbcType=INTEGER},
+      </if>
+      <if test="superPublicKey != null">
+        #{superPublicKey,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="superMerchantPublicKey != null">
+        #{superMerchantPublicKey,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="superMerchantPrivateKey != null">
+        #{superMerchantPrivateKey,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.toby.pay.model.mybatis.AccountExample" resultType="java.lang.Long">
+    select count(*) from account
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update account
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null">
+        `name` = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.channelId != null">
+        channel_id = #{record.channelId,jdbcType=INTEGER},
+      </if>
+      <if test="record.merchantId != null">
+        merchant_id = #{record.merchantId,jdbcType=INTEGER},
+      </if>
+      <if test="record.superAppId != null">
+        super_app_id = #{record.superAppId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.superMchId != null">
+        super_mch_id = #{record.superMchId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.superSubAppid != null">
+        super_sub_appid = #{record.superSubAppid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.superSubMchId != null">
+        super_sub_mch_id = #{record.superSubMchId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.superAppAuthToken != null">
+        super_app_auth_token = #{record.superAppAuthToken,jdbcType=VARCHAR},
+      </if>
+      <if test="record.superStoreId != null">
+        super_store_id = #{record.superStoreId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        `status` = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.dayLimit != null">
+        day_limit = #{record.dayLimit,jdbcType=DECIMAL},
+      </if>
+      <if test="record.dayStatistic != null">
+        day_statistic = #{record.dayStatistic,jdbcType=DECIMAL},
+      </if>
+      <if test="record.perMax != null">
+        per_max = #{record.perMax,jdbcType=DECIMAL},
+      </if>
+      <if test="record.perMin != null">
+        per_min = #{record.perMin,jdbcType=DECIMAL},
+      </if>
+      <if test="record.rate != null">
+        rate = #{record.rate,jdbcType=INTEGER},
+      </if>
+      <if test="record.superPublicKey != null">
+        super_public_key = #{record.superPublicKey,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.superMerchantPublicKey != null">
+        super_merchant_public_key = #{record.superMerchantPublicKey,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.superMerchantPrivateKey != null">
+        super_merchant_private_key = #{record.superMerchantPrivateKey,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update account
+    set id = #{record.id,jdbcType=INTEGER},
+      `name` = #{record.name,jdbcType=VARCHAR},
+      channel_id = #{record.channelId,jdbcType=INTEGER},
+      merchant_id = #{record.merchantId,jdbcType=INTEGER},
+      super_app_id = #{record.superAppId,jdbcType=VARCHAR},
+      super_mch_id = #{record.superMchId,jdbcType=VARCHAR},
+      super_sub_appid = #{record.superSubAppid,jdbcType=VARCHAR},
+      super_sub_mch_id = #{record.superSubMchId,jdbcType=VARCHAR},
+      super_app_auth_token = #{record.superAppAuthToken,jdbcType=VARCHAR},
+      super_store_id = #{record.superStoreId,jdbcType=VARCHAR},
+      `status` = #{record.status,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      day_limit = #{record.dayLimit,jdbcType=DECIMAL},
+      day_statistic = #{record.dayStatistic,jdbcType=DECIMAL},
+      per_max = #{record.perMax,jdbcType=DECIMAL},
+      per_min = #{record.perMin,jdbcType=DECIMAL},
+      rate = #{record.rate,jdbcType=INTEGER},
+      super_public_key = #{record.superPublicKey,jdbcType=LONGVARCHAR},
+      super_merchant_public_key = #{record.superMerchantPublicKey,jdbcType=LONGVARCHAR},
+      super_merchant_private_key = #{record.superMerchantPrivateKey,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update account
+    set id = #{record.id,jdbcType=INTEGER},
+      `name` = #{record.name,jdbcType=VARCHAR},
+      channel_id = #{record.channelId,jdbcType=INTEGER},
+      merchant_id = #{record.merchantId,jdbcType=INTEGER},
+      super_app_id = #{record.superAppId,jdbcType=VARCHAR},
+      super_mch_id = #{record.superMchId,jdbcType=VARCHAR},
+      super_sub_appid = #{record.superSubAppid,jdbcType=VARCHAR},
+      super_sub_mch_id = #{record.superSubMchId,jdbcType=VARCHAR},
+      super_app_auth_token = #{record.superAppAuthToken,jdbcType=VARCHAR},
+      super_store_id = #{record.superStoreId,jdbcType=VARCHAR},
+      `status` = #{record.status,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      day_limit = #{record.dayLimit,jdbcType=DECIMAL},
+      day_statistic = #{record.dayStatistic,jdbcType=DECIMAL},
+      per_max = #{record.perMax,jdbcType=DECIMAL},
+      per_min = #{record.perMin,jdbcType=DECIMAL},
+      rate = #{record.rate,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.toby.pay.model.mybatis.AccountWithBLOBs">
+    update account
+    <set>
+      <if test="name != null">
+        `name` = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="channelId != null">
+        channel_id = #{channelId,jdbcType=INTEGER},
+      </if>
+      <if test="merchantId != null">
+        merchant_id = #{merchantId,jdbcType=INTEGER},
+      </if>
+      <if test="superAppId != null">
+        super_app_id = #{superAppId,jdbcType=VARCHAR},
+      </if>
+      <if test="superMchId != null">
+        super_mch_id = #{superMchId,jdbcType=VARCHAR},
+      </if>
+      <if test="superSubAppid != null">
+        super_sub_appid = #{superSubAppid,jdbcType=VARCHAR},
+      </if>
+      <if test="superSubMchId != null">
+        super_sub_mch_id = #{superSubMchId,jdbcType=VARCHAR},
+      </if>
+      <if test="superAppAuthToken != null">
+        super_app_auth_token = #{superAppAuthToken,jdbcType=VARCHAR},
+      </if>
+      <if test="superStoreId != null">
+        super_store_id = #{superStoreId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        `status` = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dayLimit != null">
+        day_limit = #{dayLimit,jdbcType=DECIMAL},
+      </if>
+      <if test="dayStatistic != null">
+        day_statistic = #{dayStatistic,jdbcType=DECIMAL},
+      </if>
+      <if test="perMax != null">
+        per_max = #{perMax,jdbcType=DECIMAL},
+      </if>
+      <if test="perMin != null">
+        per_min = #{perMin,jdbcType=DECIMAL},
+      </if>
+      <if test="rate != null">
+        rate = #{rate,jdbcType=INTEGER},
+      </if>
+      <if test="superPublicKey != null">
+        super_public_key = #{superPublicKey,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="superMerchantPublicKey != null">
+        super_merchant_public_key = #{superMerchantPublicKey,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="superMerchantPrivateKey != null">
+        super_merchant_private_key = #{superMerchantPrivateKey,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.toby.pay.model.mybatis.AccountWithBLOBs">
+    update account
+    set `name` = #{name,jdbcType=VARCHAR},
+      channel_id = #{channelId,jdbcType=INTEGER},
+      merchant_id = #{merchantId,jdbcType=INTEGER},
+      super_app_id = #{superAppId,jdbcType=VARCHAR},
+      super_mch_id = #{superMchId,jdbcType=VARCHAR},
+      super_sub_appid = #{superSubAppid,jdbcType=VARCHAR},
+      super_sub_mch_id = #{superSubMchId,jdbcType=VARCHAR},
+      super_app_auth_token = #{superAppAuthToken,jdbcType=VARCHAR},
+      super_store_id = #{superStoreId,jdbcType=VARCHAR},
+      `status` = #{status,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      day_limit = #{dayLimit,jdbcType=DECIMAL},
+      day_statistic = #{dayStatistic,jdbcType=DECIMAL},
+      per_max = #{perMax,jdbcType=DECIMAL},
+      per_min = #{perMin,jdbcType=DECIMAL},
+      rate = #{rate,jdbcType=INTEGER},
+      super_public_key = #{superPublicKey,jdbcType=LONGVARCHAR},
+      super_merchant_public_key = #{superMerchantPublicKey,jdbcType=LONGVARCHAR},
+      super_merchant_private_key = #{superMerchantPrivateKey,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.toby.pay.model.mybatis.Account">
+    update account
+    set `name` = #{name,jdbcType=VARCHAR},
+      channel_id = #{channelId,jdbcType=INTEGER},
+      merchant_id = #{merchantId,jdbcType=INTEGER},
+      super_app_id = #{superAppId,jdbcType=VARCHAR},
+      super_mch_id = #{superMchId,jdbcType=VARCHAR},
+      super_sub_appid = #{superSubAppid,jdbcType=VARCHAR},
+      super_sub_mch_id = #{superSubMchId,jdbcType=VARCHAR},
+      super_app_auth_token = #{superAppAuthToken,jdbcType=VARCHAR},
+      super_store_id = #{superStoreId,jdbcType=VARCHAR},
+      `status` = #{status,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      day_limit = #{dayLimit,jdbcType=DECIMAL},
+      day_statistic = #{dayStatistic,jdbcType=DECIMAL},
+      per_max = #{perMax,jdbcType=DECIMAL},
+      per_min = #{perMin,jdbcType=DECIMAL},
+      rate = #{rate,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

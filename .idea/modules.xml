@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/generatorSqlmapCustom/generatorSqlmapCustom.iml" filepath="$PROJECT_DIR$/generatorSqlmapCustom/generatorSqlmapCustom.iml" />
+      <module fileurl="file://$PROJECT_DIR$/javaBase/javaBase.iml" filepath="$PROJECT_DIR$/javaBase/javaBase.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mio-manager/mio-dao/mio-dao.iml" filepath="$PROJECT_DIR$/mio-manager/mio-dao/mio-dao.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mio-manager/mio-interface/mio-interface.iml" filepath="$PROJECT_DIR$/mio-manager/mio-interface/mio-interface.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mio-manager/mio-manager.iml" filepath="$PROJECT_DIR$/mio-manager/mio-manager.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mio-parent/mio-parent.iml" filepath="$PROJECT_DIR$/mio-parent/mio-parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mio-manager/mio-pojo/mio-pojo.iml" filepath="$PROJECT_DIR$/mio-manager/mio-pojo/mio-pojo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mio-project/mio-project.iml" filepath="$PROJECT_DIR$/mio-project/mio-project.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mio-search/mio-search.iml" filepath="$PROJECT_DIR$/mio-search/mio-search.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mio-manager/mio-service/mio-service.iml" filepath="$PROJECT_DIR$/mio-manager/mio-service/mio-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mio-utils/mio-utils.iml" filepath="$PROJECT_DIR$/mio-utils/mio-utils.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mio-web/mio-web.iml" filepath="$PROJECT_DIR$/mio-web/mio-web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/wfd-project/wfd-project.iml" filepath="$PROJECT_DIR$/wfd-project/wfd-project.iml" />
+    </modules>
+  </component>
+</project>

@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ssm.mapper.CommUserOrgMapper" >
+  <resultMap id="BaseResultMap" type="com.ssm.pojo.CommUserOrg" >
+    <result column="USERID" property="userid" jdbcType="VARCHAR" />
+    <result column="ORGID" property="orgid" jdbcType="VARCHAR" />
+    <result column="JOBID" property="jobid" jdbcType="VARCHAR" />
+    <result column="STANDBY1" property="standby1" jdbcType="VARCHAR" />
+    <result column="STANDBY2" property="standby2" jdbcType="VARCHAR" />
+    <result column="STANDBY3" property="standby3" jdbcType="VARCHAR" />
+    <result column="STANDBY4" property="standby4" jdbcType="VARCHAR" />
+    <result column="STANDBY5" property="standby5" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    USERID, ORGID, JOBID, STANDBY1, STANDBY2, STANDBY3, STANDBY4, STANDBY5
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.ssm.pojo.CommUserOrgExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from COMM_USER_ORG
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.ssm.pojo.CommUserOrgExample" >
+    delete from COMM_USER_ORG
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ssm.pojo.CommUserOrg" >
+    insert into COMM_USER_ORG (USERID, ORGID, JOBID, 
+      STANDBY1, STANDBY2, STANDBY3, 
+      STANDBY4, STANDBY5)
+    values (#{userid,jdbcType=VARCHAR}, #{orgid,jdbcType=VARCHAR}, #{jobid,jdbcType=VARCHAR}, 
+      #{standby1,jdbcType=VARCHAR}, #{standby2,jdbcType=VARCHAR}, #{standby3,jdbcType=VARCHAR}, 
+      #{standby4,jdbcType=VARCHAR}, #{standby5,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ssm.pojo.CommUserOrg" >
+    insert into COMM_USER_ORG
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userid != null" >
+        USERID,
+      </if>
+      <if test="orgid != null" >
+        ORGID,
+      </if>
+      <if test="jobid != null" >
+        JOBID,
+      </if>
+      <if test="standby1 != null" >
+        STANDBY1,
+      </if>
+      <if test="standby2 != null" >
+        STANDBY2,
+      </if>
+      <if test="standby3 != null" >
+        STANDBY3,
+      </if>
+      <if test="standby4 != null" >
+        STANDBY4,
+      </if>
+      <if test="standby5 != null" >
+        STANDBY5,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userid != null" >
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="orgid != null" >
+        #{orgid,jdbcType=VARCHAR},
+      </if>
+      <if test="jobid != null" >
+        #{jobid,jdbcType=VARCHAR},
+      </if>
+      <if test="standby1 != null" >
+        #{standby1,jdbcType=VARCHAR},
+      </if>
+      <if test="standby2 != null" >
+        #{standby2,jdbcType=VARCHAR},
+      </if>
+      <if test="standby3 != null" >
+        #{standby3,jdbcType=VARCHAR},
+      </if>
+      <if test="standby4 != null" >
+        #{standby4,jdbcType=VARCHAR},
+      </if>
+      <if test="standby5 != null" >
+        #{standby5,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ssm.pojo.CommUserOrgExample" resultType="java.lang.Integer" >
+    select count(*) from COMM_USER_ORG
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update COMM_USER_ORG
+    <set >
+      <if test="record.userid != null" >
+        USERID = #{record.userid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orgid != null" >
+        ORGID = #{record.orgid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jobid != null" >
+        JOBID = #{record.jobid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.standby1 != null" >
+        STANDBY1 = #{record.standby1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.standby2 != null" >
+        STANDBY2 = #{record.standby2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.standby3 != null" >
+        STANDBY3 = #{record.standby3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.standby4 != null" >
+        STANDBY4 = #{record.standby4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.standby5 != null" >
+        STANDBY5 = #{record.standby5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update COMM_USER_ORG
+    set USERID = #{record.userid,jdbcType=VARCHAR},
+      ORGID = #{record.orgid,jdbcType=VARCHAR},
+      JOBID = #{record.jobid,jdbcType=VARCHAR},
+      STANDBY1 = #{record.standby1,jdbcType=VARCHAR},
+      STANDBY2 = #{record.standby2,jdbcType=VARCHAR},
+      STANDBY3 = #{record.standby3,jdbcType=VARCHAR},
+      STANDBY4 = #{record.standby4,jdbcType=VARCHAR},
+      STANDBY5 = #{record.standby5,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

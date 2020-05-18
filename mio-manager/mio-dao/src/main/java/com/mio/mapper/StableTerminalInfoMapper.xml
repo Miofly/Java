@@ -1,0 +1,560 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mio.mapper.StableTerminalInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.mio.pojo.StableTerminalInfo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="TERMINAL_ID" property="terminalId" jdbcType="VARCHAR" />
+    <result column="HOST_IP" property="hostIp" jdbcType="VARCHAR" />
+    <result column="HOST_NAME" property="hostName" jdbcType="VARCHAR" />
+    <result column="CPU_MODEL" property="cpuModel" jdbcType="VARCHAR" />
+    <result column="CPU_FREQUENCY" property="cpuFrequency" jdbcType="DECIMAL" />
+    <result column="MEMORY_SIZE" property="memorySize" jdbcType="DECIMAL" />
+    <result column="DISK_SIZE" property="diskSize" jdbcType="DECIMAL" />
+    <result column="GRAPHIC" property="graphic" jdbcType="VARCHAR" />
+    <result column="NETWORK_CARD" property="networkCard" jdbcType="VARCHAR" />
+    <result column="OPERATE_SYSTEM" property="operateSystem" jdbcType="VARCHAR" />
+    <result column="BROWSER" property="browser" jdbcType="VARCHAR" />
+    <result column="PRINTER_MODEL" property="printerModel" jdbcType="VARCHAR" />
+    <result column="TABLETS_MODEL" property="tabletsModel" jdbcType="VARCHAR" />
+    <result column="DISTRICT_ID" property="districtId" jdbcType="VARCHAR" />
+    <result column="OFFICE_ID" property="officeId" jdbcType="VARCHAR" />
+    <result column="CREATED_TIME" property="createdTime" jdbcType="DATE" />
+    <result column="DEVICE_TYPE" property="deviceType" jdbcType="VARCHAR" />
+    <result column="CLIENT_IP" property="clientIp" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="DATE" />
+    <result column="STATE" property="state" jdbcType="VARCHAR" />
+    <result column="DEV_UP_TIME" property="devUpTime" jdbcType="DATE" />
+    <result column="DTDEV_DOWN_TIME" property="dtdevDownTime" jdbcType="DATE" />
+    <result column="DTDEV_FIRSTFOUND_TIME" property="dtdevFirstfoundTime" jdbcType="DATE" />
+    <result column="IS_STATUS" property="isStatus" jdbcType="VARCHAR" />
+    <result column="TER_USE" property="terUse" jdbcType="VARCHAR" />
+    <result column="MAC" property="mac" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, TERMINAL_ID, HOST_IP, HOST_NAME, CPU_MODEL, CPU_FREQUENCY, MEMORY_SIZE, DISK_SIZE, 
+    GRAPHIC, NETWORK_CARD, OPERATE_SYSTEM, BROWSER, PRINTER_MODEL, TABLETS_MODEL, DISTRICT_ID, 
+    OFFICE_ID, CREATED_TIME, DEVICE_TYPE, CLIENT_IP, UPDATE_TIME, STATE, DEV_UP_TIME, 
+    DTDEV_DOWN_TIME, DTDEV_FIRSTFOUND_TIME, IS_STATUS, TER_USE, MAC
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mio.pojo.StableTerminalInfoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from STABLE_TERMINAL_INFO
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from STABLE_TERMINAL_INFO
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from STABLE_TERMINAL_INFO
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mio.pojo.StableTerminalInfoExample" >
+    delete from STABLE_TERMINAL_INFO
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mio.pojo.StableTerminalInfo" >
+    insert into STABLE_TERMINAL_INFO (ID, TERMINAL_ID, HOST_IP, 
+      HOST_NAME, CPU_MODEL, CPU_FREQUENCY, 
+      MEMORY_SIZE, DISK_SIZE, GRAPHIC, 
+      NETWORK_CARD, OPERATE_SYSTEM, BROWSER, 
+      PRINTER_MODEL, TABLETS_MODEL, DISTRICT_ID, 
+      OFFICE_ID, CREATED_TIME, DEVICE_TYPE, 
+      CLIENT_IP, UPDATE_TIME, STATE, 
+      DEV_UP_TIME, DTDEV_DOWN_TIME, DTDEV_FIRSTFOUND_TIME, 
+      IS_STATUS, TER_USE, MAC
+      )
+    values (#{id,jdbcType=DECIMAL}, #{terminalId,jdbcType=VARCHAR}, #{hostIp,jdbcType=VARCHAR}, 
+      #{hostName,jdbcType=VARCHAR}, #{cpuModel,jdbcType=VARCHAR}, #{cpuFrequency,jdbcType=DECIMAL}, 
+      #{memorySize,jdbcType=DECIMAL}, #{diskSize,jdbcType=DECIMAL}, #{graphic,jdbcType=VARCHAR}, 
+      #{networkCard,jdbcType=VARCHAR}, #{operateSystem,jdbcType=VARCHAR}, #{browser,jdbcType=VARCHAR}, 
+      #{printerModel,jdbcType=VARCHAR}, #{tabletsModel,jdbcType=VARCHAR}, #{districtId,jdbcType=VARCHAR}, 
+      #{officeId,jdbcType=VARCHAR}, #{createdTime,jdbcType=DATE}, #{deviceType,jdbcType=VARCHAR}, 
+      #{clientIp,jdbcType=VARCHAR}, #{updateTime,jdbcType=DATE}, #{state,jdbcType=VARCHAR}, 
+      #{devUpTime,jdbcType=DATE}, #{dtdevDownTime,jdbcType=DATE}, #{dtdevFirstfoundTime,jdbcType=DATE}, 
+      #{isStatus,jdbcType=VARCHAR}, #{terUse,jdbcType=VARCHAR}, #{mac,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.mio.pojo.StableTerminalInfo" >
+    insert into STABLE_TERMINAL_INFO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="terminalId != null" >
+        TERMINAL_ID,
+      </if>
+      <if test="hostIp != null" >
+        HOST_IP,
+      </if>
+      <if test="hostName != null" >
+        HOST_NAME,
+      </if>
+      <if test="cpuModel != null" >
+        CPU_MODEL,
+      </if>
+      <if test="cpuFrequency != null" >
+        CPU_FREQUENCY,
+      </if>
+      <if test="memorySize != null" >
+        MEMORY_SIZE,
+      </if>
+      <if test="diskSize != null" >
+        DISK_SIZE,
+      </if>
+      <if test="graphic != null" >
+        GRAPHIC,
+      </if>
+      <if test="networkCard != null" >
+        NETWORK_CARD,
+      </if>
+      <if test="operateSystem != null" >
+        OPERATE_SYSTEM,
+      </if>
+      <if test="browser != null" >
+        BROWSER,
+      </if>
+      <if test="printerModel != null" >
+        PRINTER_MODEL,
+      </if>
+      <if test="tabletsModel != null" >
+        TABLETS_MODEL,
+      </if>
+      <if test="districtId != null" >
+        DISTRICT_ID,
+      </if>
+      <if test="officeId != null" >
+        OFFICE_ID,
+      </if>
+      <if test="createdTime != null" >
+        CREATED_TIME,
+      </if>
+      <if test="deviceType != null" >
+        DEVICE_TYPE,
+      </if>
+      <if test="clientIp != null" >
+        CLIENT_IP,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="state != null" >
+        STATE,
+      </if>
+      <if test="devUpTime != null" >
+        DEV_UP_TIME,
+      </if>
+      <if test="dtdevDownTime != null" >
+        DTDEV_DOWN_TIME,
+      </if>
+      <if test="dtdevFirstfoundTime != null" >
+        DTDEV_FIRSTFOUND_TIME,
+      </if>
+      <if test="isStatus != null" >
+        IS_STATUS,
+      </if>
+      <if test="terUse != null" >
+        TER_USE,
+      </if>
+      <if test="mac != null" >
+        MAC,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="terminalId != null" >
+        #{terminalId,jdbcType=VARCHAR},
+      </if>
+      <if test="hostIp != null" >
+        #{hostIp,jdbcType=VARCHAR},
+      </if>
+      <if test="hostName != null" >
+        #{hostName,jdbcType=VARCHAR},
+      </if>
+      <if test="cpuModel != null" >
+        #{cpuModel,jdbcType=VARCHAR},
+      </if>
+      <if test="cpuFrequency != null" >
+        #{cpuFrequency,jdbcType=DECIMAL},
+      </if>
+      <if test="memorySize != null" >
+        #{memorySize,jdbcType=DECIMAL},
+      </if>
+      <if test="diskSize != null" >
+        #{diskSize,jdbcType=DECIMAL},
+      </if>
+      <if test="graphic != null" >
+        #{graphic,jdbcType=VARCHAR},
+      </if>
+      <if test="networkCard != null" >
+        #{networkCard,jdbcType=VARCHAR},
+      </if>
+      <if test="operateSystem != null" >
+        #{operateSystem,jdbcType=VARCHAR},
+      </if>
+      <if test="browser != null" >
+        #{browser,jdbcType=VARCHAR},
+      </if>
+      <if test="printerModel != null" >
+        #{printerModel,jdbcType=VARCHAR},
+      </if>
+      <if test="tabletsModel != null" >
+        #{tabletsModel,jdbcType=VARCHAR},
+      </if>
+      <if test="districtId != null" >
+        #{districtId,jdbcType=VARCHAR},
+      </if>
+      <if test="officeId != null" >
+        #{officeId,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null" >
+        #{createdTime,jdbcType=DATE},
+      </if>
+      <if test="deviceType != null" >
+        #{deviceType,jdbcType=VARCHAR},
+      </if>
+      <if test="clientIp != null" >
+        #{clientIp,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=DATE},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="devUpTime != null" >
+        #{devUpTime,jdbcType=DATE},
+      </if>
+      <if test="dtdevDownTime != null" >
+        #{dtdevDownTime,jdbcType=DATE},
+      </if>
+      <if test="dtdevFirstfoundTime != null" >
+        #{dtdevFirstfoundTime,jdbcType=DATE},
+      </if>
+      <if test="isStatus != null" >
+        #{isStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="terUse != null" >
+        #{terUse,jdbcType=VARCHAR},
+      </if>
+      <if test="mac != null" >
+        #{mac,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mio.pojo.StableTerminalInfoExample" resultType="java.lang.Integer" >
+    select count(*) from STABLE_TERMINAL_INFO
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update STABLE_TERMINAL_INFO
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.terminalId != null" >
+        TERMINAL_ID = #{record.terminalId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hostIp != null" >
+        HOST_IP = #{record.hostIp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hostName != null" >
+        HOST_NAME = #{record.hostName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cpuModel != null" >
+        CPU_MODEL = #{record.cpuModel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cpuFrequency != null" >
+        CPU_FREQUENCY = #{record.cpuFrequency,jdbcType=DECIMAL},
+      </if>
+      <if test="record.memorySize != null" >
+        MEMORY_SIZE = #{record.memorySize,jdbcType=DECIMAL},
+      </if>
+      <if test="record.diskSize != null" >
+        DISK_SIZE = #{record.diskSize,jdbcType=DECIMAL},
+      </if>
+      <if test="record.graphic != null" >
+        GRAPHIC = #{record.graphic,jdbcType=VARCHAR},
+      </if>
+      <if test="record.networkCard != null" >
+        NETWORK_CARD = #{record.networkCard,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operateSystem != null" >
+        OPERATE_SYSTEM = #{record.operateSystem,jdbcType=VARCHAR},
+      </if>
+      <if test="record.browser != null" >
+        BROWSER = #{record.browser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.printerModel != null" >
+        PRINTER_MODEL = #{record.printerModel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tabletsModel != null" >
+        TABLETS_MODEL = #{record.tabletsModel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.districtId != null" >
+        DISTRICT_ID = #{record.districtId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.officeId != null" >
+        OFFICE_ID = #{record.officeId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createdTime != null" >
+        CREATED_TIME = #{record.createdTime,jdbcType=DATE},
+      </if>
+      <if test="record.deviceType != null" >
+        DEVICE_TYPE = #{record.deviceType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.clientIp != null" >
+        CLIENT_IP = #{record.clientIp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null" >
+        UPDATE_TIME = #{record.updateTime,jdbcType=DATE},
+      </if>
+      <if test="record.state != null" >
+        STATE = #{record.state,jdbcType=VARCHAR},
+      </if>
+      <if test="record.devUpTime != null" >
+        DEV_UP_TIME = #{record.devUpTime,jdbcType=DATE},
+      </if>
+      <if test="record.dtdevDownTime != null" >
+        DTDEV_DOWN_TIME = #{record.dtdevDownTime,jdbcType=DATE},
+      </if>
+      <if test="record.dtdevFirstfoundTime != null" >
+        DTDEV_FIRSTFOUND_TIME = #{record.dtdevFirstfoundTime,jdbcType=DATE},
+      </if>
+      <if test="record.isStatus != null" >
+        IS_STATUS = #{record.isStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.terUse != null" >
+        TER_USE = #{record.terUse,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mac != null" >
+        MAC = #{record.mac,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update STABLE_TERMINAL_INFO
+    set ID = #{record.id,jdbcType=DECIMAL},
+      TERMINAL_ID = #{record.terminalId,jdbcType=VARCHAR},
+      HOST_IP = #{record.hostIp,jdbcType=VARCHAR},
+      HOST_NAME = #{record.hostName,jdbcType=VARCHAR},
+      CPU_MODEL = #{record.cpuModel,jdbcType=VARCHAR},
+      CPU_FREQUENCY = #{record.cpuFrequency,jdbcType=DECIMAL},
+      MEMORY_SIZE = #{record.memorySize,jdbcType=DECIMAL},
+      DISK_SIZE = #{record.diskSize,jdbcType=DECIMAL},
+      GRAPHIC = #{record.graphic,jdbcType=VARCHAR},
+      NETWORK_CARD = #{record.networkCard,jdbcType=VARCHAR},
+      OPERATE_SYSTEM = #{record.operateSystem,jdbcType=VARCHAR},
+      BROWSER = #{record.browser,jdbcType=VARCHAR},
+      PRINTER_MODEL = #{record.printerModel,jdbcType=VARCHAR},
+      TABLETS_MODEL = #{record.tabletsModel,jdbcType=VARCHAR},
+      DISTRICT_ID = #{record.districtId,jdbcType=VARCHAR},
+      OFFICE_ID = #{record.officeId,jdbcType=VARCHAR},
+      CREATED_TIME = #{record.createdTime,jdbcType=DATE},
+      DEVICE_TYPE = #{record.deviceType,jdbcType=VARCHAR},
+      CLIENT_IP = #{record.clientIp,jdbcType=VARCHAR},
+      UPDATE_TIME = #{record.updateTime,jdbcType=DATE},
+      STATE = #{record.state,jdbcType=VARCHAR},
+      DEV_UP_TIME = #{record.devUpTime,jdbcType=DATE},
+      DTDEV_DOWN_TIME = #{record.dtdevDownTime,jdbcType=DATE},
+      DTDEV_FIRSTFOUND_TIME = #{record.dtdevFirstfoundTime,jdbcType=DATE},
+      IS_STATUS = #{record.isStatus,jdbcType=VARCHAR},
+      TER_USE = #{record.terUse,jdbcType=VARCHAR},
+      MAC = #{record.mac,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mio.pojo.StableTerminalInfo" >
+    update STABLE_TERMINAL_INFO
+    <set >
+      <if test="terminalId != null" >
+        TERMINAL_ID = #{terminalId,jdbcType=VARCHAR},
+      </if>
+      <if test="hostIp != null" >
+        HOST_IP = #{hostIp,jdbcType=VARCHAR},
+      </if>
+      <if test="hostName != null" >
+        HOST_NAME = #{hostName,jdbcType=VARCHAR},
+      </if>
+      <if test="cpuModel != null" >
+        CPU_MODEL = #{cpuModel,jdbcType=VARCHAR},
+      </if>
+      <if test="cpuFrequency != null" >
+        CPU_FREQUENCY = #{cpuFrequency,jdbcType=DECIMAL},
+      </if>
+      <if test="memorySize != null" >
+        MEMORY_SIZE = #{memorySize,jdbcType=DECIMAL},
+      </if>
+      <if test="diskSize != null" >
+        DISK_SIZE = #{diskSize,jdbcType=DECIMAL},
+      </if>
+      <if test="graphic != null" >
+        GRAPHIC = #{graphic,jdbcType=VARCHAR},
+      </if>
+      <if test="networkCard != null" >
+        NETWORK_CARD = #{networkCard,jdbcType=VARCHAR},
+      </if>
+      <if test="operateSystem != null" >
+        OPERATE_SYSTEM = #{operateSystem,jdbcType=VARCHAR},
+      </if>
+      <if test="browser != null" >
+        BROWSER = #{browser,jdbcType=VARCHAR},
+      </if>
+      <if test="printerModel != null" >
+        PRINTER_MODEL = #{printerModel,jdbcType=VARCHAR},
+      </if>
+      <if test="tabletsModel != null" >
+        TABLETS_MODEL = #{tabletsModel,jdbcType=VARCHAR},
+      </if>
+      <if test="districtId != null" >
+        DISTRICT_ID = #{districtId,jdbcType=VARCHAR},
+      </if>
+      <if test="officeId != null" >
+        OFFICE_ID = #{officeId,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null" >
+        CREATED_TIME = #{createdTime,jdbcType=DATE},
+      </if>
+      <if test="deviceType != null" >
+        DEVICE_TYPE = #{deviceType,jdbcType=VARCHAR},
+      </if>
+      <if test="clientIp != null" >
+        CLIENT_IP = #{clientIp,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=DATE},
+      </if>
+      <if test="state != null" >
+        STATE = #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="devUpTime != null" >
+        DEV_UP_TIME = #{devUpTime,jdbcType=DATE},
+      </if>
+      <if test="dtdevDownTime != null" >
+        DTDEV_DOWN_TIME = #{dtdevDownTime,jdbcType=DATE},
+      </if>
+      <if test="dtdevFirstfoundTime != null" >
+        DTDEV_FIRSTFOUND_TIME = #{dtdevFirstfoundTime,jdbcType=DATE},
+      </if>
+      <if test="isStatus != null" >
+        IS_STATUS = #{isStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="terUse != null" >
+        TER_USE = #{terUse,jdbcType=VARCHAR},
+      </if>
+      <if test="mac != null" >
+        MAC = #{mac,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mio.pojo.StableTerminalInfo" >
+    update STABLE_TERMINAL_INFO
+    set TERMINAL_ID = #{terminalId,jdbcType=VARCHAR},
+      HOST_IP = #{hostIp,jdbcType=VARCHAR},
+      HOST_NAME = #{hostName,jdbcType=VARCHAR},
+      CPU_MODEL = #{cpuModel,jdbcType=VARCHAR},
+      CPU_FREQUENCY = #{cpuFrequency,jdbcType=DECIMAL},
+      MEMORY_SIZE = #{memorySize,jdbcType=DECIMAL},
+      DISK_SIZE = #{diskSize,jdbcType=DECIMAL},
+      GRAPHIC = #{graphic,jdbcType=VARCHAR},
+      NETWORK_CARD = #{networkCard,jdbcType=VARCHAR},
+      OPERATE_SYSTEM = #{operateSystem,jdbcType=VARCHAR},
+      BROWSER = #{browser,jdbcType=VARCHAR},
+      PRINTER_MODEL = #{printerModel,jdbcType=VARCHAR},
+      TABLETS_MODEL = #{tabletsModel,jdbcType=VARCHAR},
+      DISTRICT_ID = #{districtId,jdbcType=VARCHAR},
+      OFFICE_ID = #{officeId,jdbcType=VARCHAR},
+      CREATED_TIME = #{createdTime,jdbcType=DATE},
+      DEVICE_TYPE = #{deviceType,jdbcType=VARCHAR},
+      CLIENT_IP = #{clientIp,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=DATE},
+      STATE = #{state,jdbcType=VARCHAR},
+      DEV_UP_TIME = #{devUpTime,jdbcType=DATE},
+      DTDEV_DOWN_TIME = #{dtdevDownTime,jdbcType=DATE},
+      DTDEV_FIRSTFOUND_TIME = #{dtdevFirstfoundTime,jdbcType=DATE},
+      IS_STATUS = #{isStatus,jdbcType=VARCHAR},
+      TER_USE = #{terUse,jdbcType=VARCHAR},
+      MAC = #{mac,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

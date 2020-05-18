@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ssm.mapper.CommScheduleManageMapper" >
+  <resultMap id="BaseResultMap" type="com.ssm.pojo.CommScheduleManage" >
+    <id column="SCH_ID" property="schId" jdbcType="DECIMAL" />
+    <result column="SCH_TYPE" property="schType" jdbcType="VARCHAR" />
+    <result column="SCH_SUBSCRIBE" property="schSubscribe" jdbcType="VARCHAR" />
+    <result column="SCH_TITLE" property="schTitle" jdbcType="VARCHAR" />
+    <result column="SCH_DESC" property="schDesc" jdbcType="VARCHAR" />
+    <result column="BEGIN_TIME" property="beginTime" jdbcType="TIMESTAMP" />
+    <result column="END_TIME" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="CREATED_TIME" property="createdTime" jdbcType="TIMESTAMP" />
+    <result column="CREATED_USERID" property="createdUserid" jdbcType="VARCHAR" />
+    <result column="CREATED_USERNAME" property="createdUsername" jdbcType="VARCHAR" />
+    <result column="RES_FIELD1" property="resField1" jdbcType="VARCHAR" />
+    <result column="RES_FIELD2" property="resField2" jdbcType="VARCHAR" />
+    <result column="RES_FIELD3" property="resField3" jdbcType="VARCHAR" />
+    <result column="RES_FIELD4" property="resField4" jdbcType="VARCHAR" />
+    <result column="RES_FIELD5" property="resField5" jdbcType="VARCHAR" />
+    <result column="SCH_SUBTYPE" property="schSubtype" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="DATE" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    SCH_ID, SCH_TYPE, SCH_SUBSCRIBE, SCH_TITLE, SCH_DESC, BEGIN_TIME, END_TIME, CREATED_TIME, 
+    CREATED_USERID, CREATED_USERNAME, RES_FIELD1, RES_FIELD2, RES_FIELD3, RES_FIELD4, 
+    RES_FIELD5, SCH_SUBTYPE, update_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.ssm.pojo.CommScheduleManageExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from COMM_SCHEDULE_MANAGE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from COMM_SCHEDULE_MANAGE
+    where SCH_ID = #{schId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from COMM_SCHEDULE_MANAGE
+    where SCH_ID = #{schId,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ssm.pojo.CommScheduleManageExample" >
+    delete from COMM_SCHEDULE_MANAGE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ssm.pojo.CommScheduleManage" >
+    insert into COMM_SCHEDULE_MANAGE (SCH_ID, SCH_TYPE, SCH_SUBSCRIBE, 
+      SCH_TITLE, SCH_DESC, BEGIN_TIME, 
+      END_TIME, CREATED_TIME, CREATED_USERID, 
+      CREATED_USERNAME, RES_FIELD1, RES_FIELD2, 
+      RES_FIELD3, RES_FIELD4, RES_FIELD5, 
+      SCH_SUBTYPE, update_time)
+    values (#{schId,jdbcType=DECIMAL}, #{schType,jdbcType=VARCHAR}, #{schSubscribe,jdbcType=VARCHAR}, 
+      #{schTitle,jdbcType=VARCHAR}, #{schDesc,jdbcType=VARCHAR}, #{beginTime}, 
+      #{endTime}, #{createdTime}, #{createdUserid,jdbcType=VARCHAR}, 
+      #{createdUsername,jdbcType=VARCHAR}, #{resField1,jdbcType=VARCHAR}, #{resField2,jdbcType=VARCHAR}, 
+      #{resField3,jdbcType=VARCHAR}, #{resField4,jdbcType=VARCHAR}, #{resField5,jdbcType=VARCHAR}, 
+      #{schSubtype,jdbcType=VARCHAR}, #{updateTime})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ssm.pojo.CommScheduleManage" >
+    insert into COMM_SCHEDULE_MANAGE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="schId != null" >
+        SCH_ID,
+      </if>
+      <if test="schType != null" >
+        SCH_TYPE,
+      </if>
+      <if test="schSubscribe != null" >
+        SCH_SUBSCRIBE,
+      </if>
+      <if test="schTitle != null" >
+        SCH_TITLE,
+      </if>
+      <if test="schDesc != null" >
+        SCH_DESC,
+      </if>
+      <if test="beginTime != null" >
+        BEGIN_TIME,
+      </if>
+      <if test="endTime != null" >
+        END_TIME,
+      </if>
+      <if test="createdTime != null" >
+        CREATED_TIME,
+      </if>
+      <if test="createdUserid != null" >
+        CREATED_USERID,
+      </if>
+      <if test="createdUsername != null" >
+        CREATED_USERNAME,
+      </if>
+      <if test="resField1 != null" >
+        RES_FIELD1,
+      </if>
+      <if test="resField2 != null" >
+        RES_FIELD2,
+      </if>
+      <if test="resField3 != null" >
+        RES_FIELD3,
+      </if>
+      <if test="resField4 != null" >
+        RES_FIELD4,
+      </if>
+      <if test="resField5 != null" >
+        RES_FIELD5,
+      </if>
+      <if test="schSubtype != null" >
+        SCH_SUBTYPE,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="schId != null" >
+        #{schId,jdbcType=DECIMAL},
+      </if>
+      <if test="schType != null" >
+        #{schType,jdbcType=VARCHAR},
+      </if>
+      <if test="schSubscribe != null" >
+        #{schSubscribe,jdbcType=VARCHAR},
+      </if>
+      <if test="schTitle != null" >
+        #{schTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="schDesc != null" >
+        #{schDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="beginTime != null" >
+        #{beginTime},
+      </if>
+      <if test="endTime != null" >
+        #{endTime},
+      </if>
+      <if test="createdTime != null" >
+        #{createdTime},
+      </if>
+      <if test="createdUserid != null" >
+        #{createdUserid,jdbcType=VARCHAR},
+      </if>
+      <if test="createdUsername != null" >
+        #{createdUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="resField1 != null" >
+        #{resField1,jdbcType=VARCHAR},
+      </if>
+      <if test="resField2 != null" >
+        #{resField2,jdbcType=VARCHAR},
+      </if>
+      <if test="resField3 != null" >
+        #{resField3,jdbcType=VARCHAR},
+      </if>
+      <if test="resField4 != null" >
+        #{resField4,jdbcType=VARCHAR},
+      </if>
+      <if test="resField5 != null" >
+        #{resField5,jdbcType=VARCHAR},
+      </if>
+      <if test="schSubtype != null" >
+        #{schSubtype,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ssm.pojo.CommScheduleManageExample" resultType="java.lang.Integer" >
+    select count(*) from COMM_SCHEDULE_MANAGE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update COMM_SCHEDULE_MANAGE
+    <set >
+      <if test="record.schId != null" >
+        SCH_ID = #{record.schId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.schType != null" >
+        SCH_TYPE = #{record.schType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.schSubscribe != null" >
+        SCH_SUBSCRIBE = #{record.schSubscribe,jdbcType=VARCHAR},
+      </if>
+      <if test="record.schTitle != null" >
+        SCH_TITLE = #{record.schTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.schDesc != null" >
+        SCH_DESC = #{record.schDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.beginTime != null" >
+        BEGIN_TIME = #{record.beginTime},
+      </if>
+      <if test="record.endTime != null" >
+        END_TIME = #{record.endTime},
+      </if>
+      <if test="record.createdTime != null" >
+        CREATED_TIME = #{record.createdTime},
+      </if>
+      <if test="record.createdUserid != null" >
+        CREATED_USERID = #{record.createdUserid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createdUsername != null" >
+        CREATED_USERNAME = #{record.createdUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.resField1 != null" >
+        RES_FIELD1 = #{record.resField1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.resField2 != null" >
+        RES_FIELD2 = #{record.resField2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.resField3 != null" >
+        RES_FIELD3 = #{record.resField3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.resField4 != null" >
+        RES_FIELD4 = #{record.resField4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.resField5 != null" >
+        RES_FIELD5 = #{record.resField5,jdbcType=VARCHAR},
+      </if>
+      <if test="record.schSubtype != null" >
+        SCH_SUBTYPE = #{record.schSubtype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null" >
+        update_time = #{record.updateTime},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update COMM_SCHEDULE_MANAGE
+    set SCH_ID = #{record.schId,jdbcType=DECIMAL},
+      SCH_TYPE = #{record.schType,jdbcType=VARCHAR},
+      SCH_SUBSCRIBE = #{record.schSubscribe,jdbcType=VARCHAR},
+      SCH_TITLE = #{record.schTitle,jdbcType=VARCHAR},
+      SCH_DESC = #{record.schDesc,jdbcType=VARCHAR},
+      BEGIN_TIME = #{record.beginTime},
+      END_TIME = #{record.endTime},
+      CREATED_TIME = #{record.createdTime},
+      CREATED_USERID = #{record.createdUserid,jdbcType=VARCHAR},
+      CREATED_USERNAME = #{record.createdUsername,jdbcType=VARCHAR},
+      RES_FIELD1 = #{record.resField1,jdbcType=VARCHAR},
+      RES_FIELD2 = #{record.resField2,jdbcType=VARCHAR},
+      RES_FIELD3 = #{record.resField3,jdbcType=VARCHAR},
+      RES_FIELD4 = #{record.resField4,jdbcType=VARCHAR},
+      RES_FIELD5 = #{record.resField5,jdbcType=VARCHAR},
+      SCH_SUBTYPE = #{record.schSubtype,jdbcType=VARCHAR},
+      update_time = #{record.updateTime}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ssm.pojo.CommScheduleManage" >
+    update COMM_SCHEDULE_MANAGE
+    <set >
+      <if test="schType != null" >
+        SCH_TYPE = #{schType,jdbcType=VARCHAR},
+      </if>
+      <if test="schSubscribe != null" >
+        SCH_SUBSCRIBE = #{schSubscribe,jdbcType=VARCHAR},
+      </if>
+      <if test="schTitle != null" >
+        SCH_TITLE = #{schTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="schDesc != null" >
+        SCH_DESC = #{schDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="beginTime != null" >
+        BEGIN_TIME = #{beginTime},
+      </if>
+      <if test="endTime != null" >
+        END_TIME = #{endTime},
+      </if>
+      <if test="createdTime != null" >
+        CREATED_TIME = #{createdTime},
+      </if>
+      <if test="createdUserid != null" >
+        CREATED_USERID = #{createdUserid,jdbcType=VARCHAR},
+      </if>
+      <if test="createdUsername != null" >
+        CREATED_USERNAME = #{createdUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="resField1 != null" >
+        RES_FIELD1 = #{resField1,jdbcType=VARCHAR},
+      </if>
+      <if test="resField2 != null" >
+        RES_FIELD2 = #{resField2,jdbcType=VARCHAR},
+      </if>
+      <if test="resField3 != null" >
+        RES_FIELD3 = #{resField3,jdbcType=VARCHAR},
+      </if>
+      <if test="resField4 != null" >
+        RES_FIELD4 = #{resField4,jdbcType=VARCHAR},
+      </if>
+      <if test="resField5 != null" >
+        RES_FIELD5 = #{resField5,jdbcType=VARCHAR},
+      </if>
+      <if test="schSubtype != null" >
+        SCH_SUBTYPE = #{schSubtype,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime},
+      </if>
+    </set>
+    where SCH_ID = #{schId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ssm.pojo.CommScheduleManage" >
+    update COMM_SCHEDULE_MANAGE
+    set SCH_TYPE = #{schType,jdbcType=VARCHAR},
+      SCH_SUBSCRIBE = #{schSubscribe,jdbcType=VARCHAR},
+      SCH_TITLE = #{schTitle,jdbcType=VARCHAR},
+      SCH_DESC = #{schDesc,jdbcType=VARCHAR},
+      BEGIN_TIME = #{beginTime},
+      END_TIME = #{endTime},
+      CREATED_TIME = #{createdTime},
+      CREATED_USERID = #{createdUserid,jdbcType=VARCHAR},
+      CREATED_USERNAME = #{createdUsername,jdbcType=VARCHAR},
+      RES_FIELD1 = #{resField1,jdbcType=VARCHAR},
+      RES_FIELD2 = #{resField2,jdbcType=VARCHAR},
+      RES_FIELD3 = #{resField3,jdbcType=VARCHAR},
+      RES_FIELD4 = #{resField4,jdbcType=VARCHAR},
+      RES_FIELD5 = #{resField5,jdbcType=VARCHAR},
+      SCH_SUBTYPE = #{schSubtype,jdbcType=VARCHAR},
+      update_time = #{updateTime}
+    where SCH_ID = #{schId,jdbcType=DECIMAL}
+  </update>
+</mapper>

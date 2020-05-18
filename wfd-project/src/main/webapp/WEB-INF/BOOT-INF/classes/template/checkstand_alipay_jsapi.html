@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>收银台</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <script src="https://gw.alipayobjects.com/as/g/h5-lib/alipayjsapi/3.1.1/alipayjsapi.inc.min.js"></script>
+    <style>
+        body {
+            text-align: center;
+        }
+
+        .logo-wrap {
+            text-align: center;
+            padding-top: 30%;
+        }
+
+        .logo-wrap img {
+            width: 50%;
+        }
+
+        .btn {
+            width: 90%;
+            background-color: #4993EB;
+            color: #ffffff;
+            border: none;
+            padding: 7px;
+            font-size: 15px;
+            border-radius: 5px;
+            margin-top: 100px;
+        }
+    </style>
+</head>
+<body>
+<div class="logo-wrap">
+    <img th:src="@{/alipay.png}" src="../static/alipay.png" alt="">
+</div>
+<button id="J_btn" class="btn btn-default">重新拉起支付</button>
+<script th:inline="javascript">
+    var returnUrl = [[${res}]].returnUrl;
+    var tradeNo = [[${res}]].payInfo.tradeNo;
+    pay();
+
+    var btn = document.querySelector('#J_btn');
+    btn.addEventListener('click', pay);
+
+    function pay() {
+        ap.tradePay({
+            tradeNO: tradeNo
+        }, function (res) {
+            if (res.resultCode === '9000') {
+                ap.popWindow();
+            } else {
+                ap.showToast({
+                    content: '支付未完成，您可以点击页面按钮重新发起支付'
+                });
+            }
+        });
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ssm.mapper.soft.SoftManageMapper" >
+
+    <!--resultType="string"-->
+    <!--根据设备编码获取绑定的用户-->
+    <select id="getUserId" resultType="hashmap">
+        SELECT USERID FROM
+	      COMMON_USER_DEV t
+          WHERE
+	      t.DEVID = #{devId}
+    </select>
+
+    <!--根据用户手机号码查询用户信息-->
+    <select id="getUserInfos" resultType="com.mio.pojo.CommonUser">
+        SELECT * FROM common_user t WHERE t.phone = #{phone}
+    </select>
+
+    <!--根据用户手机号码获取用户权限-->
+    <select id="getPermission" resultType="hashmap">
+        SELECT
+        rm.MENUID
+        FROM
+        COMMON_USER_CLIENTROLE ur
+        INNER JOIN COMMON_CLIENTROLE_MENU rm ON ur.ROLEID = rm.ROLEID
+        AND rm.`STATUS` = 1
+        WHERE
+        ur.USERID = #{userId} -- 根据用户手机号码查询用户信息
+        AND ur.start_time &lt;= NOW()
+        AND ur.end_time > NOW();
+    </select>
+
+    <!--根据用户登录信息获取绑定设备信息-->
+    <select id="getDevInfos" resultType="com.ssm.pojo.vo.CommonUserDevCustomVo">
+        SELECT ud.DEVID,d.devname,d.devip,d.devmac,d.DevType,ud.binding_time
+        FROM COMMON_USER_DEV ud
+        LEFT JOIN COMMON_DEV d on ud.DEVID=d.DEVID
+        WHERE ud.USERID = #{userId}
+    </select>
+
+
+</mapper>

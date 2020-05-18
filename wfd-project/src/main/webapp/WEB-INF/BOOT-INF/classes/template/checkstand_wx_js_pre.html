@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>收银台</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <style>
+        body {
+            margin: 0;
+        }
+
+        .qrcode-wrap {
+            text-align: center;
+            padding-top: 30px;
+        }
+
+        .layui-img {
+            width: 210px;
+            height: 210px;
+        }
+
+        .tips-wrap {
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #FEFADF;
+            color: #B89591;
+        }
+
+        .tips-wrap h4 {
+            margin: 0
+        }
+
+        .tips-wrap p {
+            margin: 0;
+            padding-top: 5px;
+            font-size: 15px;
+        }
+
+        .button-wrap {
+            text-align: center;
+            padding: 0 15px;
+            margin-top: 15px;
+        }
+
+        .button-wrap a {
+            display: block;
+            background-color: #4993EB;
+            border: none;
+            color: #ffffff;
+            width: 100%;
+            border-radius: 5px;
+            padding: 10px 0;
+            font-size: 15px;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<div class="qrcode-wrap">
+    <img th:src="${res.qrcode}" class="layui-img" id="thumb-head">
+</div>
+<div class="tips-wrap">
+    <h4>操作指引：</h4>
+    <p>步骤1：截图保存二维码</p>
+    <p>步骤2：打开微信，点击"扫一扫"，选择最新保存的二维码。</p>
+</div>
+
+<script src="https://cdn.bootcss.com/jquery/3.4.0/jquery.min.js" type="application/javascript"></script>
+<script th:inline="javascript">
+    var returnUrl = [[${res}]].returnUrl;
+    var url = '/api/order/query';
+    if ([[${res}]].type === 'recharge') {
+        url = '/recharge/order/query'
+    }
+    if (returnUrl !== null && returnUrl !== "null" && returnUrl !== undefined && returnUrl.trim().length > 0) {
+        queryOrder();
+    }
+
+    function queryOrder() {
+        $.ajax({
+            url: url,
+            type: 'post',
+            dataType: 'json',
+            data: {orderId: [[${res}]].orderId},
+            success: function (res) {
+                if (res.code === "0") {
+                    var status = res.data.payStatus;
+                    if (status === 1) {
+                        location.href = returnUrl;
+                    } else {
+                        setTimeout(queryOrder, 1000);
+                    }
+                }
+            }
+
+        });
+    }
+</script>
+</body>
+</html>

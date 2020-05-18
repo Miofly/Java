@@ -1,0 +1,515 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.toby.pay.dao.TradeOrderDAO">
+  <resultMap id="BaseResultMap" type="com.toby.pay.model.mybatis.TradeOrder">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="superior_order_id" jdbcType="VARCHAR" property="superiorOrderId" />
+    <result column="platform_order_id" jdbcType="VARCHAR" property="platformOrderId" />
+    <result column="merchant_order_id" jdbcType="VARCHAR" property="merchantOrderId" />
+    <result column="merchant_id" jdbcType="INTEGER" property="merchantId" />
+    <result column="account_id" jdbcType="INTEGER" property="accountId" />
+    <result column="amount" jdbcType="DECIMAL" property="amount" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="super_notify_time" jdbcType="TIMESTAMP" property="superNotifyTime" />
+    <result column="platform_notify_time" jdbcType="TIMESTAMP" property="platformNotifyTime" />
+    <result column="pay_status" jdbcType="INTEGER" property="payStatus" />
+    <result column="notify_status" jdbcType="INTEGER" property="notifyStatus" />
+    <result column="return_url" jdbcType="VARCHAR" property="returnUrl" />
+    <result column="notify_url" jdbcType="VARCHAR" property="notifyUrl" />
+    <result column="body" jdbcType="VARCHAR" property="body" />
+    <result column="rate" jdbcType="INTEGER" property="rate" />
+    <result column="charge" jdbcType="DECIMAL" property="charge" />
+    <result column="agent_charge" jdbcType="DECIMAL" property="agentCharge" />
+    <result column="platform_charge" jdbcType="DECIMAL" property="platformCharge" />
+    <result column="cost_charge" jdbcType="DECIMAL" property="costCharge" />
+    <result column="notify_count" jdbcType="INTEGER" property="notifyCount" />
+    <result column="charge_status" jdbcType="INTEGER" property="chargeStatus" />
+    <result column="buyer_logon_id" jdbcType="VARCHAR" property="buyerLogonId" />
+    <result column="ip" jdbcType="VARCHAR" property="ip" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, superior_order_id, platform_order_id, merchant_order_id, merchant_id, account_id, 
+    amount, create_time, super_notify_time, platform_notify_time, pay_status, notify_status, 
+    return_url, notify_url, body, rate, charge, agent_charge, platform_charge, cost_charge, 
+    notify_count, charge_status, buyer_logon_id, ip
+  </sql>
+  <select id="selectByExample" parameterType="com.toby.pay.model.mybatis.TradeOrderExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from trade_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from trade_order
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from trade_order
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.toby.pay.model.mybatis.TradeOrderExample">
+    delete from trade_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.toby.pay.model.mybatis.TradeOrder" useGeneratedKeys="true">
+    insert into trade_order (superior_order_id, platform_order_id, 
+      merchant_order_id, merchant_id, account_id, 
+      amount, create_time, super_notify_time, 
+      platform_notify_time, pay_status, notify_status, 
+      return_url, notify_url, body, 
+      rate, charge, agent_charge, 
+      platform_charge, cost_charge, notify_count, 
+      charge_status, buyer_logon_id, ip
+      )
+    values (#{superiorOrderId,jdbcType=VARCHAR}, #{platformOrderId,jdbcType=VARCHAR}, 
+      #{merchantOrderId,jdbcType=VARCHAR}, #{merchantId,jdbcType=INTEGER}, #{accountId,jdbcType=INTEGER}, 
+      #{amount,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP}, #{superNotifyTime,jdbcType=TIMESTAMP}, 
+      #{platformNotifyTime,jdbcType=TIMESTAMP}, #{payStatus,jdbcType=INTEGER}, #{notifyStatus,jdbcType=INTEGER}, 
+      #{returnUrl,jdbcType=VARCHAR}, #{notifyUrl,jdbcType=VARCHAR}, #{body,jdbcType=VARCHAR}, 
+      #{rate,jdbcType=INTEGER}, #{charge,jdbcType=DECIMAL}, #{agentCharge,jdbcType=DECIMAL}, 
+      #{platformCharge,jdbcType=DECIMAL}, #{costCharge,jdbcType=DECIMAL}, #{notifyCount,jdbcType=INTEGER}, 
+      #{chargeStatus,jdbcType=INTEGER}, #{buyerLogonId,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.toby.pay.model.mybatis.TradeOrder" useGeneratedKeys="true">
+    insert into trade_order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="superiorOrderId != null">
+        superior_order_id,
+      </if>
+      <if test="platformOrderId != null">
+        platform_order_id,
+      </if>
+      <if test="merchantOrderId != null">
+        merchant_order_id,
+      </if>
+      <if test="merchantId != null">
+        merchant_id,
+      </if>
+      <if test="accountId != null">
+        account_id,
+      </if>
+      <if test="amount != null">
+        amount,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="superNotifyTime != null">
+        super_notify_time,
+      </if>
+      <if test="platformNotifyTime != null">
+        platform_notify_time,
+      </if>
+      <if test="payStatus != null">
+        pay_status,
+      </if>
+      <if test="notifyStatus != null">
+        notify_status,
+      </if>
+      <if test="returnUrl != null">
+        return_url,
+      </if>
+      <if test="notifyUrl != null">
+        notify_url,
+      </if>
+      <if test="body != null">
+        body,
+      </if>
+      <if test="rate != null">
+        rate,
+      </if>
+      <if test="charge != null">
+        charge,
+      </if>
+      <if test="agentCharge != null">
+        agent_charge,
+      </if>
+      <if test="platformCharge != null">
+        platform_charge,
+      </if>
+      <if test="costCharge != null">
+        cost_charge,
+      </if>
+      <if test="notifyCount != null">
+        notify_count,
+      </if>
+      <if test="chargeStatus != null">
+        charge_status,
+      </if>
+      <if test="buyerLogonId != null">
+        buyer_logon_id,
+      </if>
+      <if test="ip != null">
+        ip,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="superiorOrderId != null">
+        #{superiorOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="platformOrderId != null">
+        #{platformOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantOrderId != null">
+        #{merchantOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantId != null">
+        #{merchantId,jdbcType=INTEGER},
+      </if>
+      <if test="accountId != null">
+        #{accountId,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="superNotifyTime != null">
+        #{superNotifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="platformNotifyTime != null">
+        #{platformNotifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payStatus != null">
+        #{payStatus,jdbcType=INTEGER},
+      </if>
+      <if test="notifyStatus != null">
+        #{notifyStatus,jdbcType=INTEGER},
+      </if>
+      <if test="returnUrl != null">
+        #{returnUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="notifyUrl != null">
+        #{notifyUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="body != null">
+        #{body,jdbcType=VARCHAR},
+      </if>
+      <if test="rate != null">
+        #{rate,jdbcType=INTEGER},
+      </if>
+      <if test="charge != null">
+        #{charge,jdbcType=DECIMAL},
+      </if>
+      <if test="agentCharge != null">
+        #{agentCharge,jdbcType=DECIMAL},
+      </if>
+      <if test="platformCharge != null">
+        #{platformCharge,jdbcType=DECIMAL},
+      </if>
+      <if test="costCharge != null">
+        #{costCharge,jdbcType=DECIMAL},
+      </if>
+      <if test="notifyCount != null">
+        #{notifyCount,jdbcType=INTEGER},
+      </if>
+      <if test="chargeStatus != null">
+        #{chargeStatus,jdbcType=INTEGER},
+      </if>
+      <if test="buyerLogonId != null">
+        #{buyerLogonId,jdbcType=VARCHAR},
+      </if>
+      <if test="ip != null">
+        #{ip,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.toby.pay.model.mybatis.TradeOrderExample" resultType="java.lang.Long">
+    select count(*) from trade_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update trade_order
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.superiorOrderId != null">
+        superior_order_id = #{record.superiorOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.platformOrderId != null">
+        platform_order_id = #{record.platformOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.merchantOrderId != null">
+        merchant_order_id = #{record.merchantOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.merchantId != null">
+        merchant_id = #{record.merchantId,jdbcType=INTEGER},
+      </if>
+      <if test="record.accountId != null">
+        account_id = #{record.accountId,jdbcType=INTEGER},
+      </if>
+      <if test="record.amount != null">
+        amount = #{record.amount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.superNotifyTime != null">
+        super_notify_time = #{record.superNotifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.platformNotifyTime != null">
+        platform_notify_time = #{record.platformNotifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.payStatus != null">
+        pay_status = #{record.payStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.notifyStatus != null">
+        notify_status = #{record.notifyStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.returnUrl != null">
+        return_url = #{record.returnUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.notifyUrl != null">
+        notify_url = #{record.notifyUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.body != null">
+        body = #{record.body,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rate != null">
+        rate = #{record.rate,jdbcType=INTEGER},
+      </if>
+      <if test="record.charge != null">
+        charge = #{record.charge,jdbcType=DECIMAL},
+      </if>
+      <if test="record.agentCharge != null">
+        agent_charge = #{record.agentCharge,jdbcType=DECIMAL},
+      </if>
+      <if test="record.platformCharge != null">
+        platform_charge = #{record.platformCharge,jdbcType=DECIMAL},
+      </if>
+      <if test="record.costCharge != null">
+        cost_charge = #{record.costCharge,jdbcType=DECIMAL},
+      </if>
+      <if test="record.notifyCount != null">
+        notify_count = #{record.notifyCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.chargeStatus != null">
+        charge_status = #{record.chargeStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.buyerLogonId != null">
+        buyer_logon_id = #{record.buyerLogonId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ip != null">
+        ip = #{record.ip,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update trade_order
+    set id = #{record.id,jdbcType=INTEGER},
+      superior_order_id = #{record.superiorOrderId,jdbcType=VARCHAR},
+      platform_order_id = #{record.platformOrderId,jdbcType=VARCHAR},
+      merchant_order_id = #{record.merchantOrderId,jdbcType=VARCHAR},
+      merchant_id = #{record.merchantId,jdbcType=INTEGER},
+      account_id = #{record.accountId,jdbcType=INTEGER},
+      amount = #{record.amount,jdbcType=DECIMAL},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      super_notify_time = #{record.superNotifyTime,jdbcType=TIMESTAMP},
+      platform_notify_time = #{record.platformNotifyTime,jdbcType=TIMESTAMP},
+      pay_status = #{record.payStatus,jdbcType=INTEGER},
+      notify_status = #{record.notifyStatus,jdbcType=INTEGER},
+      return_url = #{record.returnUrl,jdbcType=VARCHAR},
+      notify_url = #{record.notifyUrl,jdbcType=VARCHAR},
+      body = #{record.body,jdbcType=VARCHAR},
+      rate = #{record.rate,jdbcType=INTEGER},
+      charge = #{record.charge,jdbcType=DECIMAL},
+      agent_charge = #{record.agentCharge,jdbcType=DECIMAL},
+      platform_charge = #{record.platformCharge,jdbcType=DECIMAL},
+      cost_charge = #{record.costCharge,jdbcType=DECIMAL},
+      notify_count = #{record.notifyCount,jdbcType=INTEGER},
+      charge_status = #{record.chargeStatus,jdbcType=INTEGER},
+      buyer_logon_id = #{record.buyerLogonId,jdbcType=VARCHAR},
+      ip = #{record.ip,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.toby.pay.model.mybatis.TradeOrder">
+    update trade_order
+    <set>
+      <if test="superiorOrderId != null">
+        superior_order_id = #{superiorOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="platformOrderId != null">
+        platform_order_id = #{platformOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantOrderId != null">
+        merchant_order_id = #{merchantOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantId != null">
+        merchant_id = #{merchantId,jdbcType=INTEGER},
+      </if>
+      <if test="accountId != null">
+        account_id = #{accountId,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null">
+        amount = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="superNotifyTime != null">
+        super_notify_time = #{superNotifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="platformNotifyTime != null">
+        platform_notify_time = #{platformNotifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payStatus != null">
+        pay_status = #{payStatus,jdbcType=INTEGER},
+      </if>
+      <if test="notifyStatus != null">
+        notify_status = #{notifyStatus,jdbcType=INTEGER},
+      </if>
+      <if test="returnUrl != null">
+        return_url = #{returnUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="notifyUrl != null">
+        notify_url = #{notifyUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="body != null">
+        body = #{body,jdbcType=VARCHAR},
+      </if>
+      <if test="rate != null">
+        rate = #{rate,jdbcType=INTEGER},
+      </if>
+      <if test="charge != null">
+        charge = #{charge,jdbcType=DECIMAL},
+      </if>
+      <if test="agentCharge != null">
+        agent_charge = #{agentCharge,jdbcType=DECIMAL},
+      </if>
+      <if test="platformCharge != null">
+        platform_charge = #{platformCharge,jdbcType=DECIMAL},
+      </if>
+      <if test="costCharge != null">
+        cost_charge = #{costCharge,jdbcType=DECIMAL},
+      </if>
+      <if test="notifyCount != null">
+        notify_count = #{notifyCount,jdbcType=INTEGER},
+      </if>
+      <if test="chargeStatus != null">
+        charge_status = #{chargeStatus,jdbcType=INTEGER},
+      </if>
+      <if test="buyerLogonId != null">
+        buyer_logon_id = #{buyerLogonId,jdbcType=VARCHAR},
+      </if>
+      <if test="ip != null">
+        ip = #{ip,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.toby.pay.model.mybatis.TradeOrder">
+    update trade_order
+    set superior_order_id = #{superiorOrderId,jdbcType=VARCHAR},
+      platform_order_id = #{platformOrderId,jdbcType=VARCHAR},
+      merchant_order_id = #{merchantOrderId,jdbcType=VARCHAR},
+      merchant_id = #{merchantId,jdbcType=INTEGER},
+      account_id = #{accountId,jdbcType=INTEGER},
+      amount = #{amount,jdbcType=DECIMAL},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      super_notify_time = #{superNotifyTime,jdbcType=TIMESTAMP},
+      platform_notify_time = #{platformNotifyTime,jdbcType=TIMESTAMP},
+      pay_status = #{payStatus,jdbcType=INTEGER},
+      notify_status = #{notifyStatus,jdbcType=INTEGER},
+      return_url = #{returnUrl,jdbcType=VARCHAR},
+      notify_url = #{notifyUrl,jdbcType=VARCHAR},
+      body = #{body,jdbcType=VARCHAR},
+      rate = #{rate,jdbcType=INTEGER},
+      charge = #{charge,jdbcType=DECIMAL},
+      agent_charge = #{agentCharge,jdbcType=DECIMAL},
+      platform_charge = #{platformCharge,jdbcType=DECIMAL},
+      cost_charge = #{costCharge,jdbcType=DECIMAL},
+      notify_count = #{notifyCount,jdbcType=INTEGER},
+      charge_status = #{chargeStatus,jdbcType=INTEGER},
+      buyer_logon_id = #{buyerLogonId,jdbcType=VARCHAR},
+      ip = #{ip,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

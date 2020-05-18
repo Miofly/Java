@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ssm.mapper.SoftwareRegeditupdateDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.mio.pojo.SoftwareRegeditupdateDetail" >
+    <result column="step_id" property="stepId" jdbcType="INTEGER" />
+    <result column="detail_id" property="detailId" jdbcType="INTEGER" />
+    <result column="detail_name" property="detailName" jdbcType="VARCHAR" />
+    <result column="v_action" property="vAction" jdbcType="VARCHAR" />
+    <result column="v_path" property="vPath" jdbcType="VARCHAR" />
+    <result column="v_key" property="vKey" jdbcType="VARCHAR" />
+    <result column="v_keytype" property="vKeytype" jdbcType="VARCHAR" />
+    <result column="v_value" property="vValue" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    step_id, detail_id, detail_name, v_action, v_path, v_key, v_keytype, v_value
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mio.pojo.SoftwareRegeditupdateDetailExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from software_regeditupdate_detail
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    order by detail_id
+  </select>
+  <delete id="deleteByExample" parameterType="com.mio.pojo.SoftwareRegeditupdateDetailExample" >
+    delete from software_regeditupdate_detail
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mio.pojo.SoftwareRegeditupdateDetail" >
+    insert into software_regeditupdate_detail (step_id, detail_id, detail_name, 
+      v_action, v_path, v_key, 
+      v_keytype, v_value)
+    values (#{stepId,jdbcType=INTEGER}, #{detailId,jdbcType=INTEGER}, #{detailName,jdbcType=VARCHAR}, 
+      #{vAction,jdbcType=VARCHAR}, #{vPath,jdbcType=VARCHAR}, #{vKey,jdbcType=VARCHAR}, 
+      #{vKeytype,jdbcType=VARCHAR}, #{vValue,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mio.pojo.SoftwareRegeditupdateDetail" >
+    insert into software_regeditupdate_detail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="stepId != null" >
+        step_id,
+      </if>
+      <if test="detailId != null" >
+        detail_id,
+      </if>
+      <if test="detailName != null" >
+        detail_name,
+      </if>
+      <if test="vAction != null" >
+        v_action,
+      </if>
+      <if test="vPath != null" >
+        v_path,
+      </if>
+      <if test="vKey != null" >
+        v_key,
+      </if>
+      <if test="vKeytype != null" >
+        v_keytype,
+      </if>
+      <if test="vValue != null" >
+        v_value,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="stepId != null" >
+        #{stepId,jdbcType=INTEGER},
+      </if>
+      <if test="detailId != null" >
+        #{detailId,jdbcType=INTEGER},
+      </if>
+      <if test="detailName != null" >
+        #{detailName,jdbcType=VARCHAR},
+      </if>
+      <if test="vAction != null" >
+        #{vAction,jdbcType=VARCHAR},
+      </if>
+      <if test="vPath != null" >
+        #{vPath,jdbcType=VARCHAR},
+      </if>
+      <if test="vKey != null" >
+        #{vKey,jdbcType=VARCHAR},
+      </if>
+      <if test="vKeytype != null" >
+        #{vKeytype,jdbcType=VARCHAR},
+      </if>
+      <if test="vValue != null" >
+        #{vValue,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mio.pojo.SoftwareRegeditupdateDetailExample" resultType="java.lang.Integer" >
+    select count(*) from software_regeditupdate_detail
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update software_regeditupdate_detail
+    <set >
+      <if test="record.stepId != null" >
+        step_id = #{record.stepId,jdbcType=INTEGER},
+      </if>
+      <if test="record.detailId != null" >
+        detail_id = #{record.detailId,jdbcType=INTEGER},
+      </if>
+      <if test="record.detailName != null" >
+        detail_name = #{record.detailName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vAction != null" >
+        v_action = #{record.vAction,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vPath != null" >
+        v_path = #{record.vPath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vKey != null" >
+        v_key = #{record.vKey,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vKeytype != null" >
+        v_keytype = #{record.vKeytype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vValue != null" >
+        v_value = #{record.vValue,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update software_regeditupdate_detail
+    set step_id = #{record.stepId,jdbcType=INTEGER},
+      detail_id = #{record.detailId,jdbcType=INTEGER},
+      detail_name = #{record.detailName,jdbcType=VARCHAR},
+      v_action = #{record.vAction,jdbcType=VARCHAR},
+      v_path = #{record.vPath,jdbcType=VARCHAR},
+      v_key = #{record.vKey,jdbcType=VARCHAR},
+      v_keytype = #{record.vKeytype,jdbcType=VARCHAR},
+      v_value = #{record.vValue,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mio.mapper.AreaInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.mio.pojo.AreaInfo" >
+    <result column="AREA_ID" property="areaId" jdbcType="DECIMAL" />
+    <result column="AREA_CODE" property="areaCode" jdbcType="VARCHAR" />
+    <result column="AREA_NAME" property="areaName" jdbcType="VARCHAR" />
+    <result column="PT_AREA_ID" property="ptAreaId" jdbcType="DECIMAL" />
+    <result column="LAN_ID" property="lanId" jdbcType="DECIMAL" />
+    <result column="X" property="x" jdbcType="VARCHAR" />
+    <result column="Y" property="y" jdbcType="VARCHAR" />
+    <result column="BAREA_NAME" property="bareaName" jdbcType="VARCHAR" />
+    <result column="SD_AREA_ID" property="sdAreaId" jdbcType="VARCHAR" />
+    <result column="WEIGHT" property="weight" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    AREA_ID, AREA_CODE, AREA_NAME, PT_AREA_ID, LAN_ID, X, Y, BAREA_NAME, SD_AREA_ID, 
+    WEIGHT
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mio.pojo.AreaInfoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from area_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.mio.pojo.AreaInfoExample" >
+    delete from area_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mio.pojo.AreaInfo" >
+    insert into area_info (AREA_ID, AREA_CODE, AREA_NAME, 
+      PT_AREA_ID, LAN_ID, X, 
+      Y, BAREA_NAME, SD_AREA_ID, 
+      WEIGHT)
+    values (#{areaId,jdbcType=DECIMAL}, #{areaCode,jdbcType=VARCHAR}, #{areaName,jdbcType=VARCHAR}, 
+      #{ptAreaId,jdbcType=DECIMAL}, #{lanId,jdbcType=DECIMAL}, #{x,jdbcType=VARCHAR}, 
+      #{y,jdbcType=VARCHAR}, #{bareaName,jdbcType=VARCHAR}, #{sdAreaId,jdbcType=VARCHAR}, 
+      #{weight,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mio.pojo.AreaInfo" >
+    insert into area_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="areaId != null" >
+        AREA_ID,
+      </if>
+      <if test="areaCode != null" >
+        AREA_CODE,
+      </if>
+      <if test="areaName != null" >
+        AREA_NAME,
+      </if>
+      <if test="ptAreaId != null" >
+        PT_AREA_ID,
+      </if>
+      <if test="lanId != null" >
+        LAN_ID,
+      </if>
+      <if test="x != null" >
+        X,
+      </if>
+      <if test="y != null" >
+        Y,
+      </if>
+      <if test="bareaName != null" >
+        BAREA_NAME,
+      </if>
+      <if test="sdAreaId != null" >
+        SD_AREA_ID,
+      </if>
+      <if test="weight != null" >
+        WEIGHT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="areaId != null" >
+        #{areaId,jdbcType=DECIMAL},
+      </if>
+      <if test="areaCode != null" >
+        #{areaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="areaName != null" >
+        #{areaName,jdbcType=VARCHAR},
+      </if>
+      <if test="ptAreaId != null" >
+        #{ptAreaId,jdbcType=DECIMAL},
+      </if>
+      <if test="lanId != null" >
+        #{lanId,jdbcType=DECIMAL},
+      </if>
+      <if test="x != null" >
+        #{x,jdbcType=VARCHAR},
+      </if>
+      <if test="y != null" >
+        #{y,jdbcType=VARCHAR},
+      </if>
+      <if test="bareaName != null" >
+        #{bareaName,jdbcType=VARCHAR},
+      </if>
+      <if test="sdAreaId != null" >
+        #{sdAreaId,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null" >
+        #{weight,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mio.pojo.AreaInfoExample" resultType="java.lang.Integer" >
+    select count(*) from area_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update area_info
+    <set >
+      <if test="record.areaId != null" >
+        AREA_ID = #{record.areaId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.areaCode != null" >
+        AREA_CODE = #{record.areaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.areaName != null" >
+        AREA_NAME = #{record.areaName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ptAreaId != null" >
+        PT_AREA_ID = #{record.ptAreaId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.lanId != null" >
+        LAN_ID = #{record.lanId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.x != null" >
+        X = #{record.x,jdbcType=VARCHAR},
+      </if>
+      <if test="record.y != null" >
+        Y = #{record.y,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bareaName != null" >
+        BAREA_NAME = #{record.bareaName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sdAreaId != null" >
+        SD_AREA_ID = #{record.sdAreaId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.weight != null" >
+        WEIGHT = #{record.weight,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update area_info
+    set AREA_ID = #{record.areaId,jdbcType=DECIMAL},
+      AREA_CODE = #{record.areaCode,jdbcType=VARCHAR},
+      AREA_NAME = #{record.areaName,jdbcType=VARCHAR},
+      PT_AREA_ID = #{record.ptAreaId,jdbcType=DECIMAL},
+      LAN_ID = #{record.lanId,jdbcType=DECIMAL},
+      X = #{record.x,jdbcType=VARCHAR},
+      Y = #{record.y,jdbcType=VARCHAR},
+      BAREA_NAME = #{record.bareaName,jdbcType=VARCHAR},
+      SD_AREA_ID = #{record.sdAreaId,jdbcType=VARCHAR},
+      WEIGHT = #{record.weight,jdbcType=DECIMAL}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

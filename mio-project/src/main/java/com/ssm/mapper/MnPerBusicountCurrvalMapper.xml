@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ssm.mapper.MnPerBusicountCurrvalMapper" >
+  <resultMap id="BaseResultMap" type="com.mio.pojo.MnPerBusicountCurrval" >
+    <result column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="DATA_TIME" property="dataTime" jdbcType="DATE" />
+    <result column="OBJECT_CODE" property="objectCode" jdbcType="VARCHAR" />
+    <result column="OBJECT_NAME" property="objectName" jdbcType="VARCHAR" />
+    <result column="KPI_CODE" property="kpiCode" jdbcType="VARCHAR" />
+    <result column="KPI_NAME" property="kpiName" jdbcType="VARCHAR" />
+    <result column="PER_VALUE" property="perValue" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="ALARM_ID" property="alarmId" jdbcType="DECIMAL" />
+    <result column="CREATED_TIME" property="createdTime" jdbcType="DATE" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, DATA_TIME, OBJECT_CODE, OBJECT_NAME, KPI_CODE, KPI_NAME, PER_VALUE, STATUS, ALARM_ID, 
+    CREATED_TIME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mio.pojo.MnPerBusicountCurrvalExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from MN_PER_BUSICOUNT_CURRVAL
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.mio.pojo.MnPerBusicountCurrvalExample" >
+    delete from MN_PER_BUSICOUNT_CURRVAL
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mio.pojo.MnPerBusicountCurrval" >
+    insert into MN_PER_BUSICOUNT_CURRVAL (ID, DATA_TIME, OBJECT_CODE, 
+      OBJECT_NAME, KPI_CODE, KPI_NAME, 
+      PER_VALUE, STATUS, ALARM_ID, 
+      CREATED_TIME)
+    values (#{id,jdbcType=DECIMAL}, #{dataTime,jdbcType=DATE}, #{objectCode,jdbcType=VARCHAR}, 
+      #{objectName,jdbcType=VARCHAR}, #{kpiCode,jdbcType=VARCHAR}, #{kpiName,jdbcType=VARCHAR}, 
+      #{perValue,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{alarmId,jdbcType=DECIMAL}, 
+      #{createdTime,jdbcType=DATE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mio.pojo.MnPerBusicountCurrval" >
+    insert into MN_PER_BUSICOUNT_CURRVAL
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="dataTime != null" >
+        DATA_TIME,
+      </if>
+      <if test="objectCode != null" >
+        OBJECT_CODE,
+      </if>
+      <if test="objectName != null" >
+        OBJECT_NAME,
+      </if>
+      <if test="kpiCode != null" >
+        KPI_CODE,
+      </if>
+      <if test="kpiName != null" >
+        KPI_NAME,
+      </if>
+      <if test="perValue != null" >
+        PER_VALUE,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="alarmId != null" >
+        ALARM_ID,
+      </if>
+      <if test="createdTime != null" >
+        CREATED_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="dataTime != null" >
+        #{dataTime,jdbcType=DATE},
+      </if>
+      <if test="objectCode != null" >
+        #{objectCode,jdbcType=VARCHAR},
+      </if>
+      <if test="objectName != null" >
+        #{objectName,jdbcType=VARCHAR},
+      </if>
+      <if test="kpiCode != null" >
+        #{kpiCode,jdbcType=VARCHAR},
+      </if>
+      <if test="kpiName != null" >
+        #{kpiName,jdbcType=VARCHAR},
+      </if>
+      <if test="perValue != null" >
+        #{perValue,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="alarmId != null" >
+        #{alarmId,jdbcType=DECIMAL},
+      </if>
+      <if test="createdTime != null" >
+        #{createdTime,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mio.pojo.MnPerBusicountCurrvalExample" resultType="java.lang.Integer" >
+    select count(*) from MN_PER_BUSICOUNT_CURRVAL
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update MN_PER_BUSICOUNT_CURRVAL
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.dataTime != null" >
+        DATA_TIME = #{record.dataTime,jdbcType=DATE},
+      </if>
+      <if test="record.objectCode != null" >
+        OBJECT_CODE = #{record.objectCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.objectName != null" >
+        OBJECT_NAME = #{record.objectName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.kpiCode != null" >
+        KPI_CODE = #{record.kpiCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.kpiName != null" >
+        KPI_NAME = #{record.kpiName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.perValue != null" >
+        PER_VALUE = #{record.perValue,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        STATUS = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.alarmId != null" >
+        ALARM_ID = #{record.alarmId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.createdTime != null" >
+        CREATED_TIME = #{record.createdTime,jdbcType=DATE},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update MN_PER_BUSICOUNT_CURRVAL
+    set ID = #{record.id,jdbcType=DECIMAL},
+      DATA_TIME = #{record.dataTime,jdbcType=DATE},
+      OBJECT_CODE = #{record.objectCode,jdbcType=VARCHAR},
+      OBJECT_NAME = #{record.objectName,jdbcType=VARCHAR},
+      KPI_CODE = #{record.kpiCode,jdbcType=VARCHAR},
+      KPI_NAME = #{record.kpiName,jdbcType=VARCHAR},
+      PER_VALUE = #{record.perValue,jdbcType=VARCHAR},
+      STATUS = #{record.status,jdbcType=VARCHAR},
+      ALARM_ID = #{record.alarmId,jdbcType=DECIMAL},
+      CREATED_TIME = #{record.createdTime,jdbcType=DATE}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

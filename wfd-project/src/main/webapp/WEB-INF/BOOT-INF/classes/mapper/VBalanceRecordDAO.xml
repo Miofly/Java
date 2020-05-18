@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.toby.pay.dao.VBalanceRecordDAO">
+    <resultMap id="BaseResultMap" type="com.toby.pay.model.mybatis.VBalanceRecord">
+        <result column="id" jdbcType="INTEGER" property="id"/>
+        <result column="merchant_id" jdbcType="INTEGER" property="merchantId"/>
+        <result column="before" jdbcType="DECIMAL" property="before"/>
+        <result column="after" jdbcType="DECIMAL" property="after"/>
+        <result column="difference" jdbcType="DECIMAL" property="difference"/>
+        <result column="reason" jdbcType="VARCHAR" property="reason"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="relevant_order_id" jdbcType="VARCHAR" property="relevantOrderId"/>
+        <result column="type" jdbcType="INTEGER" property="type"/>
+        <result column="merchant_account" jdbcType="VARCHAR" property="merchantAccount"/>
+        <result column="merchant_type" jdbcType="INTEGER" property="merchantType"/>
+        <result column="merchant_name" jdbcType="VARCHAR" property="merchantName"/>
+        <result column="merchant_telephone" jdbcType="VARCHAR" property="merchantTelephone"/>
+        <result column="merchant_status" jdbcType="INTEGER" property="merchantStatus"/>
+        <result column="agent_id" jdbcType="INTEGER" property="agentId"/>
+        <result column="agent_account" jdbcType="VARCHAR" property="agentAccount"/>
+        <result column="agent_name" jdbcType="VARCHAR" property="agentName"/>
+        <result column="agent_telephone" jdbcType="VARCHAR" property="agentTelephone"/>
+        <result column="agent_status" jdbcType="INTEGER" property="agentStatus"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+    id, merchant_id, `before`, `after`, difference, reason, create_time, relevant_order_id, 
+    `type`, merchant_account, merchant_type, merchant_name, merchant_telephone, merchant_status, 
+    agent_id, agent_account, agent_name, agent_telephone, agent_status
+  </sql>
+    <select id="selectByExample" parameterType="com.toby.pay.model.mybatis.VBalanceRecordExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from v_balance_record
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <if test="limit != null">
+            <if test="offset != null">
+                limit ${offset}, ${limit}
+            </if>
+            <if test="offset == null">
+                limit ${limit}
+            </if>
+        </if>
+    </select>
+    <delete id="deleteByExample" parameterType="com.toby.pay.model.mybatis.VBalanceRecordExample">
+        delete from v_balance_record
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.toby.pay.model.mybatis.VBalanceRecord"
+            useGeneratedKeys="true">
+    insert into v_balance_record (merchant_id, `before`, `after`, 
+      difference, reason, create_time, 
+      relevant_order_id, `type`, merchant_account, 
+      merchant_type, merchant_name, merchant_telephone, 
+      merchant_status, agent_id, agent_account, 
+      agent_name, agent_telephone, agent_status
+      )
+    values (#{merchantId,jdbcType=INTEGER}, #{before,jdbcType=DECIMAL}, #{after,jdbcType=DECIMAL}, 
+      #{difference,jdbcType=DECIMAL}, #{reason,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{relevantOrderId,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{merchantAccount,jdbcType=VARCHAR}, 
+      #{merchantType,jdbcType=INTEGER}, #{merchantName,jdbcType=VARCHAR}, #{merchantTelephone,jdbcType=VARCHAR}, 
+      #{merchantStatus,jdbcType=INTEGER}, #{agentId,jdbcType=INTEGER}, #{agentAccount,jdbcType=VARCHAR}, 
+      #{agentName,jdbcType=VARCHAR}, #{agentTelephone,jdbcType=VARCHAR}, #{agentStatus,jdbcType=INTEGER}
+      )
+  </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.toby.pay.model.mybatis.VBalanceRecord"
+            useGeneratedKeys="true">
+        insert into v_balance_record
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="merchantId != null">
+                merchant_id,
+            </if>
+            <if test="before != null">
+                `before`,
+            </if>
+            <if test="after != null">
+                `after`,
+            </if>
+            <if test="difference != null">
+                difference,
+            </if>
+            <if test="reason != null">
+                reason,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="relevantOrderId != null">
+                relevant_order_id,
+            </if>
+            <if test="type != null">
+                `type`,
+            </if>
+            <if test="merchantAccount != null">
+                merchant_account,
+            </if>
+            <if test="merchantType != null">
+                merchant_type,
+            </if>
+            <if test="merchantName != null">
+                merchant_name,
+            </if>
+            <if test="merchantTelephone != null">
+                merchant_telephone,
+            </if>
+            <if test="merchantStatus != null">
+                merchant_status,
+            </if>
+            <if test="agentId != null">
+                agent_id,
+            </if>
+            <if test="agentAccount != null">
+                agent_account,
+            </if>
+            <if test="agentName != null">
+                agent_name,
+            </if>
+            <if test="agentTelephone != null">
+                agent_telephone,
+            </if>
+            <if test="agentStatus != null">
+                agent_status,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="merchantId != null">
+                #{merchantId,jdbcType=INTEGER},
+            </if>
+            <if test="before != null">
+                #{before,jdbcType=DECIMAL},
+            </if>
+            <if test="after != null">
+                #{after,jdbcType=DECIMAL},
+            </if>
+            <if test="difference != null">
+                #{difference,jdbcType=DECIMAL},
+            </if>
+            <if test="reason != null">
+                #{reason,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="relevantOrderId != null">
+                #{relevantOrderId,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=INTEGER},
+            </if>
+            <if test="merchantAccount != null">
+                #{merchantAccount,jdbcType=VARCHAR},
+            </if>
+            <if test="merchantType != null">
+                #{merchantType,jdbcType=INTEGER},
+            </if>
+            <if test="merchantName != null">
+                #{merchantName,jdbcType=VARCHAR},
+            </if>
+            <if test="merchantTelephone != null">
+                #{merchantTelephone,jdbcType=VARCHAR},
+            </if>
+            <if test="merchantStatus != null">
+                #{merchantStatus,jdbcType=INTEGER},
+            </if>
+            <if test="agentId != null">
+                #{agentId,jdbcType=INTEGER},
+            </if>
+            <if test="agentAccount != null">
+                #{agentAccount,jdbcType=VARCHAR},
+            </if>
+            <if test="agentName != null">
+                #{agentName,jdbcType=VARCHAR},
+            </if>
+            <if test="agentTelephone != null">
+                #{agentTelephone,jdbcType=VARCHAR},
+            </if>
+            <if test="agentStatus != null">
+                #{agentStatus,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.toby.pay.model.mybatis.VBalanceRecordExample" resultType="java.lang.Long">
+        select count(*) from v_balance_record
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update v_balance_record
+        <set>
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=INTEGER},
+            </if>
+            <if test="record.merchantId != null">
+                merchant_id = #{record.merchantId,jdbcType=INTEGER},
+            </if>
+            <if test="record.before != null">
+                `before` = #{record.before,jdbcType=DECIMAL},
+            </if>
+            <if test="record.after != null">
+                `after` = #{record.after,jdbcType=DECIMAL},
+            </if>
+            <if test="record.difference != null">
+                difference = #{record.difference,jdbcType=DECIMAL},
+            </if>
+            <if test="record.reason != null">
+                reason = #{record.reason,jdbcType=VARCHAR},
+            </if>
+            <if test="record.createTime != null">
+                create_time = #{record.createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.relevantOrderId != null">
+                relevant_order_id = #{record.relevantOrderId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.type != null">
+                `type` = #{record.type,jdbcType=INTEGER},
+            </if>
+            <if test="record.merchantAccount != null">
+                merchant_account = #{record.merchantAccount,jdbcType=VARCHAR},
+            </if>
+            <if test="record.merchantType != null">
+                merchant_type = #{record.merchantType,jdbcType=INTEGER},
+            </if>
+            <if test="record.merchantName != null">
+                merchant_name = #{record.merchantName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.merchantTelephone != null">
+                merchant_telephone = #{record.merchantTelephone,jdbcType=VARCHAR},
+            </if>
+            <if test="record.merchantStatus != null">
+                merchant_status = #{record.merchantStatus,jdbcType=INTEGER},
+            </if>
+            <if test="record.agentId != null">
+                agent_id = #{record.agentId,jdbcType=INTEGER},
+            </if>
+            <if test="record.agentAccount != null">
+                agent_account = #{record.agentAccount,jdbcType=VARCHAR},
+            </if>
+            <if test="record.agentName != null">
+                agent_name = #{record.agentName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.agentTelephone != null">
+                agent_telephone = #{record.agentTelephone,jdbcType=VARCHAR},
+            </if>
+            <if test="record.agentStatus != null">
+                agent_status = #{record.agentStatus,jdbcType=INTEGER},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update v_balance_record
+        set id = #{record.id,jdbcType=INTEGER},
+        merchant_id = #{record.merchantId,jdbcType=INTEGER},
+        `before` = #{record.before,jdbcType=DECIMAL},
+        `after` = #{record.after,jdbcType=DECIMAL},
+        difference = #{record.difference,jdbcType=DECIMAL},
+        reason = #{record.reason,jdbcType=VARCHAR},
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+        relevant_order_id = #{record.relevantOrderId,jdbcType=VARCHAR},
+        `type` = #{record.type,jdbcType=INTEGER},
+        merchant_account = #{record.merchantAccount,jdbcType=VARCHAR},
+        merchant_type = #{record.merchantType,jdbcType=INTEGER},
+        merchant_name = #{record.merchantName,jdbcType=VARCHAR},
+        merchant_telephone = #{record.merchantTelephone,jdbcType=VARCHAR},
+        merchant_status = #{record.merchantStatus,jdbcType=INTEGER},
+        agent_id = #{record.agentId,jdbcType=INTEGER},
+        agent_account = #{record.agentAccount,jdbcType=VARCHAR},
+        agent_name = #{record.agentName,jdbcType=VARCHAR},
+        agent_telephone = #{record.agentTelephone,jdbcType=VARCHAR},
+        agent_status = #{record.agentStatus,jdbcType=INTEGER}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <select id="sumDifferenceByExample" parameterType="com.toby.pay.model.mybatis.VBalanceRecordExample"
+            resultType="java.math.BigDecimal">
+        select IFNULL(sum(difference),0) difference
+        from v_balance_record
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+</mapper>

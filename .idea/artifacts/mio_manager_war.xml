@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="mio-manager:war">
+    <output-path>$PROJECT_DIR$/../mio/mio-manager/target</output-path>
+    <root id="archive" name="mio-manager-1.0-SNAPSHOT.war">
+      <element id="artifact" artifact-name="mio-manager:war exploded" />
+    </root>
+  </artifact>
+</component>
